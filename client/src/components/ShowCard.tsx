@@ -1,27 +1,38 @@
-import { Row, Col, Card, Container } from 'react-bootstrap';
+import { Row, Card, Stack } from 'react-bootstrap';
+import { CiLocationOn, CiClock2 } from "react-icons/ci";
 
 const ShowCard = ({ show }: any) => {
 	return (
 		<>
-			{/* <Row>{show.image}</Row>
-			<Row>
-				<Col>{show.name}</Col>
-				<Col>{show.price} <span>ILS</span></Col>
-			</Row>
-			<Row>{show.address}</Row>
-			<Row>{show.time}</Row> */}
 			<Card className='my-2 p-3'>
-				<Card.Img src={show.image}/>
+				<Card.Img src={show.image} />
+				<Card.ImgOverlay className='d-flex align-items-end justify-content-end'>
+					<div>
+						Save {show.price - 13}%
+					</div>
+				</Card.ImgOverlay>
 
 				<Card.Footer>
-					<Container>
-						<Row>
-							<Col>{show.name}</Col>
-							<Col>{show.price}.00 <span>ILS</span></Col>
-						</Row>
-						<Row>{show.address}</Row>
-						<Row>{show.time}</Row>
-					</Container>
+					<Row>
+						<Stack direction="horizontal">
+							{show.name}
+							<div className='ms-auto'>
+								{show.price}.00 <span>ILS</span>
+							</div>
+						</Stack>
+					</Row>
+					<Row>
+						<Stack direction="horizontal" gap={1}>
+							<CiLocationOn />
+							{show.address}
+						</Stack>
+					</Row>
+					<Row>
+						<Stack direction="horizontal" gap={1}>
+							<CiClock2 />
+							{show.time}
+						</Stack>
+					</Row>
 				</Card.Footer>
 			</Card>
 		</>

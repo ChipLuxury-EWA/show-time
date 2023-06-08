@@ -2,9 +2,13 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { CgHome, CgUser } from "react-icons/cg";
 import { HiOutlineTicket } from "react-icons/hi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+	const navigate = useNavigate()
+
 	const handleOnSelect = (eventKey: string) => {
+		navigate(`/${eventKey}`)
 		console.log(`pressed ${eventKey}`);
 	};
 

@@ -1,5 +1,6 @@
 import { Row, Card, Stack } from 'react-bootstrap';
 import { CiLocationOn, CiClock2 } from "react-icons/ci";
+import Rating from "./Rating";
 
 const ShowCard = ({ show }: any) => {
 	return (
@@ -25,6 +26,9 @@ const ShowCard = ({ show }: any) => {
 						<Stack direction="horizontal" gap={1}>
 							<CiLocationOn />
 							{show.address}
+							<div className={"ms-auto"}>
+								<Rating rate={show.rate} />
+							</div>
 						</Stack>
 					</Row>
 					<Row>

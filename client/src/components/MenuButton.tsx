@@ -16,23 +16,37 @@ const MenuButton = ({ menuItemType }: MenuItemType) => {
     switch (menuItemType) {
       case "home":
         return [
-          <CgHome className={ICON_CLASS_NAME} />,
-          <label className={LABEL_CLASS_NAME}>Home</label>,
+          <CgHome key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
+          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
+            Home
+          </span>,
         ];
       case "inbox":
         return [
-          <HiOutlineEnvelope className={ICON_CLASS_NAME} />,
-          <label className={LABEL_CLASS_NAME}>Inbox</label>,
+          <HiOutlineEnvelope
+            key={menuItemType + "icon"}
+            className={ICON_CLASS_NAME}
+          />,
+          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
+            Inbox
+          </span>,
         ];
       case "myShows":
         return [
-          <HiOutlineTicket className={ICON_CLASS_NAME} />,
-          <label className={LABEL_CLASS_NAME}>My Shows</label>,
+          <HiOutlineTicket
+            key={menuItemType + "icon"}
+            className={ICON_CLASS_NAME}
+          />,
+          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
+            My Shows
+          </span>,
         ];
       case "profile":
         return [
-          <CgUser className={ICON_CLASS_NAME} />,
-          <label className={LABEL_CLASS_NAME}>Profile</label>,
+          <CgUser key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
+          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
+            Profile
+          </span>,
         ];
     }
   };

@@ -2,6 +2,7 @@ import { Row, Card, Stack } from "react-bootstrap";
 import { CiLocationOn, CiClock2 } from "react-icons/ci";
 import Rating from "./Rating";
 
+// TODO tompo add interface for show
 const ShowCard = ({ show }: any) => {
   return (
     <>

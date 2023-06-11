@@ -1,9 +1,5 @@
-import React from 'react'
-
 const MyShows = () => {
-  return (
-    <div>MyShows</div>
-  )
-}
+  return <div>MyShows</div>;
+};
 
-export default MyShows
+export default MyShows;

@@ -7,7 +7,7 @@ const Footer = () => {
 
   const handleOnSelect = (eventKey: string) => {
     navigate(`/${eventKey}`);
-    console.log(`pressed ${eventKey}`);
+    console.log(`pressed ${eventKey}`); // TODO tompo add event logger
   };
   const menuItemsTypes = ["home", "inbox", "myShows", "profile"];
   const menuItemsDynamicList = menuItemsTypes.map((type) => (

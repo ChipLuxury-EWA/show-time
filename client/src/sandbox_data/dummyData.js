@@ -61,6 +61,7 @@ for (let i = 1; i <= SHOWS_AMOUNT; i++) {
     description: `Description ${i} ${getRandomString(getRandomInt(20, 100))}`,
     duration: getRandomInt(60, 180), // Random duration in minutes (60 to 180)
     cast: [`Actor ${i}A`, `Actor ${i}B`], // Assuming 2 actors for each show
+    rate: getRandomInt(0, 5),
   };
   shows.push(show);
 }

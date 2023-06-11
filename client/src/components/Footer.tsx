@@ -9,6 +9,10 @@ const Footer = () => {
     navigate(`/${eventKey}`);
     console.log(`pressed ${eventKey}`);
   };
+  const menuItemsTypes = ["home", "inbox", "myShows", "profile"];
+  const menuItemsDynamicList = menuItemsTypes.map((type) => (
+    <MenuButton key={type} menuItemType={type} />
+  ));
 
   return (
     <footer>
@@ -22,10 +26,7 @@ const Footer = () => {
               handleOnSelect(eventKey!);
             }}
           >
-            <MenuButton menuItemType={"home"} />
-            <MenuButton menuItemType={"inbox"} />
-            <MenuButton menuItemType={"myShows"} />
-            <MenuButton menuItemType={"profile"} />
+            {menuItemsDynamicList}
           </Nav>
         </Container>
       </Navbar>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import ShowCard from "../components/ShowCard";
 
-const dummyData = require('../sandbox_data/dummyData');
+const dummyData = require("../sandbox_data/dummyData");
 
 const Home = () => {
   const [sbData, setSbData] = useState(dummyData);

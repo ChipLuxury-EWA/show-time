@@ -15,13 +15,25 @@ const MenuButton = ({ menuItemType }: MenuItemType) => {
     // return the icon component and the button label:
     switch (menuItemType) {
       case "home":
-        return [<CgHome className={ICON_CLASS_NAME} />, <label className={LABEL_CLASS_NAME}>Home</label>];
+        return [
+          <CgHome className={ICON_CLASS_NAME} />,
+          <label className={LABEL_CLASS_NAME}>Home</label>,
+        ];
       case "inbox":
-        return [<HiOutlineEnvelope className={ICON_CLASS_NAME} />, <label className={LABEL_CLASS_NAME}>Inbox</label>];
+        return [
+          <HiOutlineEnvelope className={ICON_CLASS_NAME} />,
+          <label className={LABEL_CLASS_NAME}>Inbox</label>,
+        ];
       case "myShows":
-        return [<HiOutlineTicket className={ICON_CLASS_NAME} />, <label className={LABEL_CLASS_NAME}>My Shows</label >];
+        return [
+          <HiOutlineTicket className={ICON_CLASS_NAME} />,
+          <label className={LABEL_CLASS_NAME}>My Shows</label>,
+        ];
       case "profile":
-        return [<CgUser className={ICON_CLASS_NAME} />, <label className={LABEL_CLASS_NAME}>Profile</label>];
+        return [
+          <CgUser className={ICON_CLASS_NAME} />,
+          <label className={LABEL_CLASS_NAME}>Profile</label>,
+        ];
     }
   };
 

@@ -1,14 +1,12 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { CgHome, CgUser } from "react-icons/cg";
-import { HiOutlineTicket } from "react-icons/hi";
-import { HiOutlineEnvelope } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
+import MenuButton from './MenuButton';
 
 const Footer = () => {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const handleOnSelect = (eventKey: string) => {
-		navigate(`/${eventKey}`)
+		navigate(`/${eventKey}`);
 		console.log(`pressed ${eventKey}`);
 	};
 
@@ -16,21 +14,13 @@ const Footer = () => {
 		<footer>
 			<Navbar fixed="bottom" bg="light" variant="light">
 				<Container fluid>
-					<Nav className="justify-content-center" fill defaultActiveKey="home" onSelect={(eventKey) => {
+					<Nav className="vw-100" fill defaultActiveKey="home" onSelect={(eventKey) => {
 						handleOnSelect(eventKey!);
 					}}>
-						<Nav.Item>
-							<Nav.Link eventKey="home"><CgHome />Home</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link eventKey="inbox"><HiOutlineEnvelope />Inbox</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link eventKey="myShows"><HiOutlineTicket />My Shows</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link eventKey="profile"><CgUser />Profile</Nav.Link>
-						</Nav.Item>
+						<MenuButton menuItemType={"home"} />
+						<MenuButton menuItemType={"inbox"} />
+						<MenuButton menuItemType={"myShows"} />
+						<MenuButton menuItemType={"profile"} />
 					</Nav>
 				</Container>
 			</Navbar>

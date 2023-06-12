@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import ShowCard from "../components/ShowCard";
 
-const dummyData = require("../sandbox_data/dummyData");
+import dummyData from "../sandbox_data/dummyData";
+import Header from "../components/Header";
 
 const Home = () => {
-  const [sbData, setSbData] = useState(dummyData);
-
-  const showsDynamicList = sbData.shows.map((show: any) => (
+  const showsDynamicList = dummyData.shows.map((show: any) => (
     <Row key={show._id}>
       <ShowCard show={show} />
     </Row>
@@ -15,6 +13,7 @@ const Home = () => {
 
   return (
     <>
+      <Header />
       <Col>{showsDynamicList}</Col>
     </>
   );

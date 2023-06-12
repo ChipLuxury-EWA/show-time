@@ -15,14 +15,18 @@ import Home from "./screens/Home";
 import Inbox from "./screens/Inbox";
 import MyShows from "./screens/MyShows";
 import Profile from "./screens/Profile";
+import Product from "./screens/Product";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index path="/home" element={<Home />} />
-      <Route index path="/inbox" element={<Inbox />} />
-      <Route index path="/myShows" element={<MyShows />} />
-      <Route index path="/profile" element={<Profile />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/inbox" element={<Inbox />} />
+      <Route path="/myShows" element={<MyShows />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/product">
+        <Route path=":id" element={<Product />} />
+      </Route>
     </Route>
   )
 );

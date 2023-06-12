@@ -1,5 +1,6 @@
 // this code was generated with chatGPT
 // my main goal was to generate json object....
+import { faker } from '@faker-js/faker';
 
 const AMOUNT_OF_USERS = 10;
 const AMOUNT_OF_ROLES = 3;
@@ -45,22 +46,22 @@ for (let i = 1; i <= AMOUNT_OF_USERS; i++) {
 const shows = [];
 for (let i = 1; i <= SHOWS_AMOUNT; i++) {
   const show = {
-    _id: i,
+    _id: i.toString(),
     categoryId: getRandomInt(1, AMOUNT_OF_CATEGORY), // Assuming 4 categories available
     ticketIds: [],
     sellerId: getRandomInt(1, 3), // Assuming 8 sellers available
     // TODO tompo: add id by user role (if user.role == role.id)
-    name: `Show ${i}`,
+    name: faker.company.name(),
     price: getRandomInt(10, 100), // Random price (10 to 100)
     location: getRandomInt(1, AMOUNT_OF_LOCATIONS), // Assuming 5 locations available
     address: `Address ${i} ${getRandomString(10)}`,
-    image: `images/ticket_${i}.jpg`,
+    image: `/images/ticket_${i}.jpg`,
     date: new Date().toISOString().split("T")[0], // Today's date
     time: `${getRandomInt(0, 23)}:00`, // Random hour (00:00 to 23:00)
     minutesBeforePurchase: getRandomInt(1, 60), // Random minutes (1 to 60)
-    description: `Description ${i} ${getRandomString(getRandomInt(20, 100))}`,
+    description: `${faker.commerce.productDescription()}`,
     duration: getRandomInt(60, 180), // Random duration in minutes (60 to 180)
-    cast: [`Actor ${i}A`, `Actor ${i}B`], // Assuming 2 actors for each show
+    cast: [`Amos Tamam`, ` Rebeka Michali`], // Assuming 2 actors for each show
     rate: getRandomInt(0, 5),
   };
   shows.push(show);
@@ -78,6 +79,7 @@ shows.forEach((show) => {
       discountPrice: getRandomInt(5, 50), // Random discount price (5 to 50)
     };
     tickets.push(ticket);
+    show.ticketIds.push(ticket._id);
   }
 });
 
@@ -121,4 +123,4 @@ const dummyData = {
   roles,
 };
 
-module.exports = dummyData;
+export default dummyData;

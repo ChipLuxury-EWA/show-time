@@ -1,17 +1,24 @@
 import { Row, Card, Stack } from "react-bootstrap";
 import { CiLocationOn, CiClock2 } from "react-icons/ci";
 import Rating from "./Rating";
+import { useNavigate } from "react-router-dom";
 
 // TODO tompo add interface for show
 const ShowCard = ({ show }: any) => {
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(`/product/${show._id}`);
+  };
+
   return (
     <>
-      <Card className="my-2 p-3">
+      <Card onClick={() => handleOnClick()} className="my-2 p-3" role="button">
         <Card.Img src={show.image} />
-        <Card.ImgOverlay className="d-flex align-items-end justify-content-end">
+        {/* <Card.ImgOverlay className="d-flex align-items-end justify-content-end">
           <div>Save {show.price - 13}%</div>
-        </Card.ImgOverlay>
-
+        </Card.ImgOverlay> */}
+        
         <Card.Footer>
           <Row>
             <Stack direction="horizontal">

@@ -1,4 +1,5 @@
 import express from "express";
+import dotenv from "dotenv";
 
 import fakeData from "../data/fakeData.js";
 
@@ -6,8 +7,10 @@ interface show {
   _id: string;
 }
 
+dotenv.config();
+
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.get("/health", (req, res) => {
   res.send("Api running...");

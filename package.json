@@ -5,12 +5,17 @@
   "description": "Fullstack web app to buy and sell last minute tickets",
   "main": "index.js",
   "scripts": {
-    "start": "node --watch server/dist/app.js"
+    "start": "node server/dist/app.js",
+    "server": "node --watch server/dist/app.js",
+    "client": "npm start --prefix client",
+    "ts_watch": "cd server && tsc -w",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run ts_watch\" "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2"
+    "@faker-js/faker": "^8.0.2",
+    "concurrently": "^8.2.0"
   }
 }

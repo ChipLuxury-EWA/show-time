@@ -5,9 +5,12 @@
   "description": "Fullstack web app to buy and sell last minute tickets",
   "main": "index.js",
   "scripts": {
-    "start": "node server/dist/app.js",
+    "start": "node --watch server/dist/app.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2"
+  }
 }

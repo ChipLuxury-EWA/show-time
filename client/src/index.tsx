@@ -15,7 +15,7 @@ import Home from "./screens/Home";
 import Inbox from "./screens/Inbox";
 import MyShows from "./screens/MyShows";
 import Profile from "./screens/Profile";
-import Product from "./screens/Product";
+import Show from "./screens/Show";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +25,7 @@ const router = createBrowserRouter(
       <Route path="/myShows" element={<MyShows />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/product">
-        <Route path=":id" element={<Product />} />
+        <Route path=":id" element={<Show />} />
       </Route>
     </Route>
   )

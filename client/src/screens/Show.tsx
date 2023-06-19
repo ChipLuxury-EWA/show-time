@@ -1,14 +1,43 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
+import { fetchShowById } from "../services/show.service";
+import { useEffect, useState } from "react";
 
-import dummyData from "../sandbox_data/dummyData";
+interface show {
+  _id: string;
+  categoryId: number; // Assuming 4 categories available
+  ticketIds: string[];
+  sellerId: number; // Assuming 8 sellers available
+  name: string;
+  price: number; // Random price (10 to 100;
+  location: number;
+  address: string;
+  image: string;
+  date: Date;
+  time: number;
+  minutesBeforePurchase: number;
+  description: string;
+  duration: number;
+  cast: string[];
+  rate: Number;
+}
 
-const Product = () => {
-  const { id: showId } = useParams();
-  const showData = dummyData.shows.find((show: any) => show._id === showId)!;
-  const ticketsAmount = showData?.ticketIds.length;
+const Show = () => {
+  const { id: showId }: any = useParams();
+
+  const [show, setShow] = useState<show>({});
+  const [ticketsAmount, setTicketsAmount] = useState<number>(0);
+
+  useEffect(() => {
+    const getShow = async () => {
+      setShow(await fetchShowById(showId));
+    };
+    getShow();
+  }, [showId]);
+
+  setTicketsAmount(show?.ticketIds.length);
 
   return (
     <>
@@ -16,25 +45,25 @@ const Product = () => {
         <Col md={5}>
           <ListGroup>
             <ListGroup.Item>
-              <Image src={showData.image} alt={showData.name} fluid />
+              <Image src={show.image} alt={show.name} fluid />
             </ListGroup.Item>
 
             <ListGroup.Item>
-              {showData.date} {showData.time} {showData.duration}min
+              {show.date} {show.time} {show.duration}min
             </ListGroup.Item>
-            <ListGroup.Item>{showData.cast}</ListGroup.Item>
+            <ListGroup.Item>{show.cast}</ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={4}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h3>{showData.name}</h3>
+              <h3>{show.name}</h3>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Rating rate={showData.rate} />
+              <Rating rate={show.rate} />
             </ListGroup.Item>
-            <ListGroup.Item>Price: {showData.price}ILS</ListGroup.Item>
-            <ListGroup.Item>{showData.description}</ListGroup.Item>
+            <ListGroup.Item>Price: {show.price}ILS</ListGroup.Item>
+            <ListGroup.Item>{show.description}</ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={3}>
@@ -43,7 +72,7 @@ const Product = () => {
               <Row>
                 <Col>Price:</Col>
                 <Col>
-                  <strong>&#8362;{showData.price}</strong>
+                  <strong>&#8362;{show.price}</strong>
                 </Col>
               </Row>
             </ListGroup.Item>
@@ -80,4 +109,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Show;

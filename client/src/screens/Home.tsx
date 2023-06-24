@@ -1,11 +1,25 @@
 import { Col, Row } from "react-bootstrap";
-import ShowCard from "../components/ShowCard";
+import { useEffect, useState } from "react";
 
-import dummyData from "../sandbox_data/dummyData";
+import ShowCard from "../components/ShowCard";
 import Header from "../components/Header";
+import { fetchShows } from "../services/show.service";
+
+interface show {
+  _id: string;
+}
 
 const Home = () => {
-  const showsDynamicList = dummyData.shows.map((show: any) => (
+  const [shows, setShows] = useState<show[]>([]);
+  useEffect(() => {
+    initializeShows();
+  }, []);
+
+  const initializeShows = async () => {
+    setShows(await fetchShows());
+  };
+
+  const showsDynamicList = shows.map((show: show) => (
     <Row key={show._id}>
       <ShowCard show={show} />
     </Row>

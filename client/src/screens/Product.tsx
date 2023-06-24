@@ -1,16 +1,46 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
+import { fetchShowById } from "../services/show.service";
+import { useEffect, useState } from "react";
 
-import dummyData from "../sandbox_data/dummyData";
+interface Show {
+  _id: string;
+  categoryId: number;
+  ticketIds: string[];
+  sellerId: number;
+  name: string;
+  price: number;
+  location: number;
+  address: string;
+  image: string;
+  date: Date;
+  time: number;
+  minutesBeforePurchase: number;
+  description: string;
+  duration: number;
+  cast: string[];
+  rate: Number;
+}
 
 const Product = () => {
-  const { id: showId } = useParams();
-  const showData = dummyData.shows.find((show: any) => show._id === showId)!;
-  const ticketsAmount = showData?.ticketIds.length;
+  const { id: showId } = useParams() as { id: string };
+  const [showData, setShowData] = useState<Show | undefined>();
+  const [ticketsAmount, setTicketsAmount] = useState<number>(0);
 
-  return (
+  useEffect(() => {
+    const getShow = async () => {
+      setShowData(await fetchShowById(showId));
+    };
+    getShow();
+  }, [showId, setShowData]);
+
+  useEffect(() => {
+    showData && setTicketsAmount(showData.ticketIds.length);
+  }, [showData]);
+
+  return showData ? (
     <>
       <Row>
         <Col md={5}>
@@ -20,7 +50,7 @@ const Product = () => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              {showData.date} {showData.time} {showData.duration}min
+              {showData.date.toString()} {showData.time} {showData.duration}min
             </ListGroup.Item>
             <ListGroup.Item>{showData.cast}</ListGroup.Item>
           </ListGroup>
@@ -77,6 +107,8 @@ const Product = () => {
         </Col>
       </Row>
     </>
+  ) : (
+    <>Loading...</>
   );
 };
 

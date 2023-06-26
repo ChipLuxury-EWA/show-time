@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 
 interface Show {
   _id: string;
-  categoryId: number;
-  ticketIds: string[];
-  sellerId: number;
+  categoryId: any;
+  ticketIds: any;
+  sellerId: any;
   name: string;
   price: number;
   location: number;
@@ -21,7 +21,7 @@ interface Show {
   description: string;
   duration: number;
   cast: string[];
-  rate: Number;
+  rate: number;
 }
 
 const Product = () => {

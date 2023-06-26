@@ -9,7 +9,7 @@
     "server": "node --watch server/dist/app.js",
     "client": "npm start --prefix client",
     "ts_watch": "cd server && tsc -w",
-    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run ts_watch\" "
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "keywords": [],
   "author": "",

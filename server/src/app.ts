@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectToMongoDB from './src/data/dbConnect.js'
-import fakeData from "./src/data/fakeData.js";
+import connectToMongoDB from './data/dbConnect.js'
+import fakeData from "./data/fakeData.js";
 
 interface show {
   _id: string;
@@ -15,7 +15,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.get("/health", (req, res) => {
-  res.send("Api running....");
+  res.send("Api running...");
 });
 
 app.get("/shows", (req, res) => {

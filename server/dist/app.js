@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectToMongoDB from './data/dbConnect.js';
+import connectToMongoDB from './config/dbConnect.js';
 import fakeData from "./data/fakeData.js";
 dotenv.config();
 connectToMongoDB();

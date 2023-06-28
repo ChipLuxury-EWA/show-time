@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/dist/app.js",
-    "server": "node --watch server/dist/app.js",
+    "server": "node --watch server/dist/index.js",
     "client": "npm start --prefix client",
     "ts_watch": "cd server && tsc -w",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",

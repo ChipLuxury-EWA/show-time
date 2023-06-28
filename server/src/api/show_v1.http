@@ -1,0 +1,4 @@
+GET {{BASE_URL}}/shows HTTP/1.1
+###
+
+GET {{BASE_URL}}/shows/649bcf2c513ae138c84ab3d3 HTTP/1.1

@@ -1,30 +1,8 @@
-import express from "express";
-import dotenv from "dotenv";
-import connectToMongoDB from './config/dbConnect.js'
-import fakeData from "./data/fakeData.js";
+import express, { Express } from "express";
+import routes from "./routes/router.js";
 
-interface show {
-  _id: string;
-}
+const app: Express = express();
 
-dotenv.config();
+app.use("/api", routes);
 
-connectToMongoDB()
-
-const app = express();
-const port = process.env.PORT || 3001;
-
-app.get("/health", (req, res) => {
-  res.send("Api running...");
-});
-
-app.get("/shows", (req, res) => {
-  res.json(fakeData.shows);
-});
-
-app.get("/shows/:id", (req, res) => {
-  const show = fakeData.shows.find((show: show) => show._id === req.params.id);
-  res.json(show);
-});
-
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+export default app;

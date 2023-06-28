@@ -1,9 +1,8 @@
 // this code was generated with chatGPT
 // my main goal was to generate json object....
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
+import bcrypt from "bcryptjs";
 const AMOUNT_OF_USERS = 10;
-const AMOUNT_OF_ROLES = 3;
-const AMOUNT_OF_LOCATIONS = 5;
 const AMOUNT_OF_CATEGORY = 4;
 const SHOWS_AMOUNT = 9;
 const MAX_TICKET_AMOUNT_PER_SHOW = 8;
@@ -11,6 +10,12 @@ const MAX_TICKET_AMOUNT_PER_SHOW = 8;
 // Generate random integer within a range
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function getRandomRole() {
+    return ["admin", "showOrganizer", "buyer"][getRandomInt(0, 2)];
+}
+function getRandomLocation() {
+    return ["south", "north", "center"][getRandomInt(0, 2)];
 }
 // Generate random string
 function getRandomString(length) {
@@ -23,14 +28,32 @@ function getRandomString(length) {
     return result;
 }
 // Generate dummy data for Users
-const users = [];
+const users = [
+    {
+        name: `Admin User`,
+        email: `admin@example.com`,
+        password: bcrypt.hashSync("123456", 10),
+        role: "admin",
+    },
+    {
+        name: `showOrganizer User`,
+        email: `showOrganizer@example.com`,
+        password: bcrypt.hashSync("123456", 10),
+        role: "showOrganizer",
+    },
+    {
+        name: `buyer User`,
+        email: `buyer@example.com`,
+        password: bcrypt.hashSync("123456", 10),
+        role: "buyer",
+    },
+];
 for (let i = 1; i <= AMOUNT_OF_USERS; i++) {
     const user = {
-        _id: i,
-        name: `User ${i}`,
-        email: `user${i}@example.com`,
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
         password: `password${i}`,
-        role: getRandomInt(1, AMOUNT_OF_ROLES), // Assuming 8 roles available
+        role: getRandomRole(),
     };
     users.push(user);
 }
@@ -38,18 +61,18 @@ for (let i = 1; i <= AMOUNT_OF_USERS; i++) {
 const shows = [];
 for (let i = 1; i <= SHOWS_AMOUNT; i++) {
     const show = {
-        _id: i.toString(),
+        // _id: i.toString(),
         categoryId: getRandomInt(1, AMOUNT_OF_CATEGORY),
         ticketIds: [],
         sellerId: getRandomInt(1, 3),
         // TODO tompo: add id by user role (if user.role == role.id)
         name: faker.company.name(),
         price: getRandomInt(10, 100),
-        location: getRandomInt(1, AMOUNT_OF_LOCATIONS),
-        address: `Address ${i} ${getRandomString(10)}`,
+        location: getRandomLocation(),
+        address: faker.location.streetAddress({ useFullAddress: true }),
         image: `/images/ticket_${i}.jpg`,
         date: new Date().toISOString().split("T")[0],
-        time: `${getRandomInt(0, 23)}:00`,
+        time: new Date(),
         minutesBeforePurchase: getRandomInt(1, 60),
         description: `${faker.commerce.productDescription()}`,
         duration: getRandomInt(60, 180),
@@ -63,7 +86,7 @@ const tickets = [];
 shows.forEach((show) => {
     for (let i = 1; i <= getRandomInt(3, MAX_TICKET_AMOUNT_PER_SHOW); i++) {
         const ticket = {
-            _id: parseInt(show._id + i.toString()),
+            // _id: parseInt(show._id + i.toString()),
             showId: show._id,
             buyerId: getRandomInt(4, 8),
             status: getRandomInt(1, 3),
@@ -73,40 +96,10 @@ shows.forEach((show) => {
         show.ticketIds.push(ticket._id);
     }
 });
-// Generate dummy data for Categories
-const categories = [];
-for (let i = 1; i <= AMOUNT_OF_CATEGORY; i++) {
-    const category = {
-        _id: i,
-        name: `Category ${i}`,
-    };
-    categories.push(category);
-}
-// Generate dummy data for Locations
-const locations = [];
-for (let i = 1; i <= AMOUNT_OF_LOCATIONS; i++) {
-    const location = {
-        _id: i,
-        name: `Location ${i}`,
-    };
-    locations.push(location);
-}
-// Generate dummy data for Roles
-const roles = [];
-for (let i = 1; i <= AMOUNT_OF_ROLES; i++) {
-    const role = {
-        _id: i,
-        name: `Role ${i}`,
-    };
-    roles.push(role);
-}
 // Export the dummy data as an object
 const fakeData = {
     users,
     shows,
     tickets,
-    categories,
-    locations,
-    roles,
 };
 export default fakeData;

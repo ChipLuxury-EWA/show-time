@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 interface IShow {
   _id: string;
   // TODO tompo implement ts mongoose types:
-  sellerId: any;
+  showOrganizer: any;
   categoryId: any;
   ticketsIds: any[];
   reviews: any;
@@ -13,7 +13,7 @@ interface IShow {
   address: string;
   image: string;
   date: Date;
-  time: number;
+  time: Date;
   minutesBeforePurchase: number;
   description: string;
   duration: number;
@@ -23,16 +23,16 @@ interface IShow {
 
 const showSchema = new Schema<IShow>(
   {
-    sellerId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    categoryId: { type: Schema.Types.ObjectId, required: true, ref: "Category" },
+    showOrganizer: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    categoryId: { type: String },
     ticketsIds: { type: [Schema.Types.ObjectId], required: true, ref: "Ticket" },
     name: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
-    location: {type: Schema.Types.ObjectId},
+    location: { type: String, enum: ["south", "north", "center"] },
     address: String,
     image: String,
     date: { type: Date, required: true },
-    time: Number,
+    time: { type: Date, required: true },
     minutesBeforePurchase: { type: Number, default: 30 },
     description: String,
     duration: Number,

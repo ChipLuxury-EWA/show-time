@@ -9,7 +9,9 @@
     "server": "node --watch server/dist/app.js",
     "client": "npm start --prefix client",
     "ts_watch": "cd server && tsc -w",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
+    "data:seed": "node ./server/dist/data/seeder.js",
+    "data:destroy": "node ./server/dist/data/seeder.js -d"
   },
   "keywords": [],
   "author": "",

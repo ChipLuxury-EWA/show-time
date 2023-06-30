@@ -1,12 +1,8 @@
 import { Response, Request, NextFunction } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { UrlNotFound } from "../errors/server.errors.js";
 
 export const RouteNotFound = (req: Request, res: Response, next: NextFunction) => {
-  const error = new Error(`Not found - ${req.originalUrl}`);
-  res.status(404);
-  next(error);
+  throw new UrlNotFound(`URL Not found - ${req.originalUrl}`);
 };
 
 export const errorHandler = (err, req: Request, res: Response, next: NextFunction) => {

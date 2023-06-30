@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 interface Show {
   _id: string;
   categoryId: any;
-  ticketIds: any;
+  ticketsIds: any;
   sellerId: any;
   name: string;
   price: number;
@@ -37,7 +37,7 @@ const Product = () => {
   }, [showId, setShowData]);
 
   useEffect(() => {
-    showData && setTicketsAmount(showData.ticketIds.length);
+    showData && setTicketsAmount(showData.ticketsIds.length);
   }, [showData]);
 
   return showData ? (

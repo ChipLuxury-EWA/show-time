@@ -1,24 +1,27 @@
+import { ShowNotFound } from "../errors/db.errors.js";
 import Show from "../models/show.model.js";
 
 async function getAllShows() {
-    try {
-        return await Show.find({});
-    } catch (error) {
-        console.log(`Error fetching all shows`);
-    }
+  try {
+    return await Show.find({});
+  } catch (error) {
+    console.log(`Error fetching all shows`);
+  }
 }
 
 async function getShowByID(id: string) {
-    try {
-        return await Show.findById(id);
-    } catch (error) {
-        console.log(`Error fetching show ${id}`);
-        // TODO tompo add error handling
-        return `Error fetching show ${id}`;
+  try {
+    return await Show.findById(id);
+  } catch (error: any) {
+    if (error.name === "CastError") {
+      throw new ShowNotFound;
+    } else {
+      throw error;
     }
+  }
 }
 
 export default {
-    getAllShows,
-    getShowByID,
+  getAllShows,
+  getShowByID,
 };

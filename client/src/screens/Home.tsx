@@ -4,14 +4,10 @@ import ShowCard from "../components/ShowCard";
 import Header from "../components/Header";
 import { useGetAllShowsQuery } from "../redux/slices/shows.slice";
 
-interface show {
-  _id: string;
-}
-
 const Home = () => {
   const { data: shows, isLoading, isError, error } = useGetAllShowsQuery();
 
-  const showsDynamicList = shows?.map((show: show) => (
+  const showsDynamicList = shows?.map((show) => (
     <Row key={show._id}>
       <ShowCard show={show} />
     </Row>

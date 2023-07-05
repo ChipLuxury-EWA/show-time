@@ -2,6 +2,8 @@ import { Col, Row } from "react-bootstrap";
 
 import ShowCard from "../components/ShowCard";
 import Header from "../components/Header";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import { useGetAllShowsQuery } from "../redux/slices/shows.slice";
 
 const Home = () => {
@@ -16,9 +18,9 @@ const Home = () => {
   return (
     <>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <Loader />
       ) : isError ? (
-        <div>{error.data.message || error.error}</div> // TODO tompo ts: edit type ant of base query in line 6 api.slice.js
+        <Message variant="danger">{error.data.message || error.error}</Message> // TODO tompo ts: edit type ant of base query in line 6 api.slice.js
       ) : (
         <>
           <Header />

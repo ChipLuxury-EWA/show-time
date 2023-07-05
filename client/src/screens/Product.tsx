@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
 import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import { useGetShowByIdQuery } from "../redux/slices/shows.slice";
-import { useState } from "react";
 
 const Product = () => {
   const { id: showId } = useParams() as { id: any };
@@ -12,9 +13,9 @@ const Product = () => {
   const [ticketsAmount, setTicketsAmount] = useState<number>(0);
 
   return isLoading ? (
-    <h1>LOADING PRODUCT PAGE</h1>
+    <Loader/>
   ) : isError ? (
-    <div>{error.data.message || error.error}</div>
+    <Message variant="danger">{error.data.message || error.error}</Message>
   ) : showData ? (
     <Row>
       <Col md={5}>

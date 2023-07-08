@@ -34,7 +34,7 @@ const Product = () => {
   ));
 
   useEffect(() => {
-    setTicketsInStock(10); //showData?.ticketsIds.length);
+    setTicketsInStock(showData?.ticketsIds.length);
   }, [isLoading, showData]);
 
   return isLoading ? (

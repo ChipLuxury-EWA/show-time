@@ -19,7 +19,7 @@ const Product = () => {
   const [chosenTicketsAmount, setChosenTicketsAmount] = useState<number>(1);
 
   const handleTicketsSelect = (e: any) => {
-    setChosenTicketsAmount(e.target.value);
+    setChosenTicketsAmount(Number(e.target.value));
   };
 
   const addToCartHandler = () => {

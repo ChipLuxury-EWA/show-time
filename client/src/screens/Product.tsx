@@ -1,25 +1,55 @@
-import { useParams, Link } from "react-router-dom";
-import { useState } from "react";
-import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Row, Col, Image, ListGroup, Button, Form } from "react-bootstrap";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useGetShowByIdQuery } from "../redux/slices/shows.slice";
+import { addToCart } from "../redux/slices/cart.slice";
 
 const Product = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { id: showId } = useParams() as { id: any };
   const { data: showData, isLoading, isError, error } = useGetShowByIdQuery(showId);
 
-  const [ticketsAmount, setTicketsAmount] = useState<number>(0);
+  const [ticketsInStock, setTicketsInStock] = useState<number>(0);
+  const [chosenTicketsAmount, setChosenTicketsAmount] = useState<number>(1);
+
+  const handleTicketsSelect = (e: any) => {
+    setChosenTicketsAmount(e.target.value);
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addToCart({ ...showData, chosenTicketsAmount }));
+    navigate("/cart");
+  };
+
+  const dynamicOptions = Array.from({ length: ticketsInStock }, (_, i) => 1 + i).map((ticketsAmount) => (
+    <option key={"select" + ticketsAmount} value={ticketsAmount}>
+      {ticketsAmount}
+    </option>
+  ));
+
+  useEffect(() => {
+    setTicketsInStock(10); //showData?.ticketsIds.length);
+  }, [isLoading, showData]);
 
   return isLoading ? (
-    <Loader/>
+    <Loader />
   ) : isError ? (
     <Message variant="danger">{error.data.message || error.error}</Message>
   ) : showData ? (
     <Row>
       <Col md={5}>
         <ListGroup>
+          <ListGroup.Item>
+            <Link className="btn btn-light" to="/home">
+              Go back
+            </Link>
+          </ListGroup.Item>
           <ListGroup.Item>
             <Image src={showData.image} alt={showData.name} fluid />
           </ListGroup.Item>
@@ -56,28 +86,32 @@ const Product = () => {
             <Row>
               <Col>Tickets:</Col>
               <Col>
-                <strong>{ticketsAmount}</strong>
+                <strong>{ticketsInStock}</strong>
               </Col>
             </Row>
           </ListGroup.Item>
           <ListGroup.Item>
             <Row>
-              <Col>
-                <Button className="btn-block" type="button" disabled={ticketsAmount === 0}>
+              <Col className="w-100">
+                <Button onClick={addToCartHandler} type="button" disabled={ticketsInStock === 0}>
                   Buy now
                 </Button>
               </Col>
-              <Col className="d-flex justify-content-end">
-                <Link className="btn btn-light" to="/home">
-                  Go back
-                </Link>
-              </Col>
+              {ticketsInStock > 0 && (
+                <Col className="d-flex justify-content-end">
+                  <Form.Control as="select" value={chosenTicketsAmount} onChange={handleTicketsSelect}>
+                    {dynamicOptions}
+                  </Form.Control>
+                </Col>
+              )}
             </Row>
           </ListGroup.Item>
         </ListGroup>
       </Col>
     </Row>
-  ) : (<div>Data error</div>);
+  ) : (
+    <Message variant="danger">Data error</Message>
+  );
 };
 
 export default Product;

@@ -1,5 +1,5 @@
 import { Nav, Stack } from "react-bootstrap";
-import { CgHome, CgUser } from "react-icons/cg";
+import { CgHome, CgUser, CgShoppingCart } from "react-icons/cg";
 import { HiOutlineTicket } from "react-icons/hi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 
@@ -23,20 +23,14 @@ const MenuButton = ({ menuItemType }: MenuItemType) => {
         ];
       case "inbox":
         return [
-          <HiOutlineEnvelope
-            key={menuItemType + "icon"}
-            className={ICON_CLASS_NAME}
-          />,
+          <HiOutlineEnvelope key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
           <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
             Inbox
           </span>,
         ];
       case "myShows":
         return [
-          <HiOutlineTicket
-            key={menuItemType + "icon"}
-            className={ICON_CLASS_NAME}
-          />,
+          <HiOutlineTicket key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
           <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
             My Shows
           </span>,
@@ -48,15 +42,20 @@ const MenuButton = ({ menuItemType }: MenuItemType) => {
             Profile
           </span>,
         ];
+      case "cart":
+        return [
+          <CgShoppingCart key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
+          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
+            Cart
+          </span>,
+        ];
     }
   };
 
   return (
     <Nav.Item>
       <Nav.Link eventKey={menuItemType}>
-        <Stack className="align-items-end">
-          {getIconAndLabel(menuItemType)}
-        </Stack>
+        <Stack className="align-items-end">{getIconAndLabel(menuItemType)}</Stack>
       </Nav.Link>
     </Nav.Item>
   );

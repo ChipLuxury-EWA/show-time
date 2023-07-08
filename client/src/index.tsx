@@ -14,6 +14,7 @@ import Inbox from "./screens/Inbox";
 import MyShows from "./screens/MyShows";
 import Profile from "./screens/Profile";
 import Product from "./screens/Product";
+import Cart from "./screens/Cart";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path="/product">
         <Route path=":id" element={<Product />} />
       </Route>
+      <Route path="/cart" element={<Cart />}/>
     </Route>
   )
 );

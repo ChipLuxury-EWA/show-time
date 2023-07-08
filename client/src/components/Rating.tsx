@@ -1,7 +1,8 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
-const Rating = ({ rate }: any) => {
-  const dynamicStarsList = [1, 2, 3, 4, 5].map((index) =>
+const Rating = ({ rate, amountOfStars }: { rate: number; amountOfStars: number }) => {
+  const starsArrayRange = Array.from({ length: amountOfStars }, (_, i) => 1 + i);
+  const dynamicStarsList = starsArrayRange.map((index) =>
     rate >= index ? (
       <FaStar key={"fullStar" + index} />
     ) : rate >= index - 0.5 ? (
@@ -12,6 +13,10 @@ const Rating = ({ rate }: any) => {
   );
 
   return <div>{dynamicStarsList}</div>;
+};
+
+Rating.defaultProps = {
+  amountOfStars: 5,
 };
 
 export default Rating;

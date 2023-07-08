@@ -9,7 +9,7 @@ const Footer = () => {
     navigate(`/${eventKey}`);
     console.log(`pressed ${eventKey}`); // TODO tompo add event logger
   };
-  const menuItemsTypes = ["home", "inbox", "myShows", "profile"];
+  const menuItemsTypes = ["home", "inbox", "myShows", "profile", "cart"];
   const menuItemsDynamicList = menuItemsTypes.map((type) => (
     <MenuButton key={type} menuItemType={type} />
   ));

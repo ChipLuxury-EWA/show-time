@@ -1,12 +1,13 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Row, Col, Image, ListGroup, Button, Form } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import Rating from "../components/Rating";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useGetShowByIdQuery } from "../redux/slices/shows.slice";
 import { addToCart } from "../redux/slices/cart.slice";
+import ProductAmountForm from "../components/ProductAmountForm";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -26,12 +27,6 @@ const Product = () => {
     dispatch(addToCart({ ...showData, chosenTicketsAmount }));
     navigate("/cart");
   };
-
-  const dynamicOptions = Array.from({ length: ticketsInStock }, (_, i) => 1 + i).map((ticketsAmount) => (
-    <option key={"select" + ticketsAmount} value={ticketsAmount}>
-      {ticketsAmount}
-    </option>
-  ));
 
   useEffect(() => {
     setTicketsInStock(showData?.ticketsIds.length);
@@ -98,10 +93,12 @@ const Product = () => {
                 </Button>
               </Col>
               {ticketsInStock > 0 && (
-                <Col className="d-flex justify-content-end">
-                  <Form.Control as="select" value={chosenTicketsAmount} onChange={handleTicketsSelect}>
-                    {dynamicOptions}
-                  </Form.Control>
+                <Col>
+                  <ProductAmountForm
+                    value={chosenTicketsAmount}
+                    handleChange={handleTicketsSelect}
+                    length={ticketsInStock}
+                  />
                 </Col>
               )}
             </Row>

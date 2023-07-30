@@ -2,6 +2,10 @@ interface ICartItem {
   _id: string;
 }
 
+const updateLocalStorage = (state: any) => {
+  localStorage.setItem("cart", JSON.stringify(state));
+};
+
 const calculateItemsPrice = (cartItems: any) => {
   return Number(
     cartItems.reduce((acc: number, item: any) => acc + item.price * item.chosenTicketsAmount, 0).toFixed(2)
@@ -28,5 +32,11 @@ export const addToCartUtil = (state: any, action: any) => {
   state.taxPrice = getTaxPrice(state.itemsPrice);
   state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice;
 
-  localStorage.setItem("cart", JSON.stringify(state));
+  updateLocalStorage(state);
+};
+
+export const removeFromCartUtil = (state: any, action: any) => {
+  const itemId: String = action.payload;
+  state.cartItems = state.cartItems.filter((item: ICartItem) => item._id !== itemId);
+  updateLocalStorage(state);
 };

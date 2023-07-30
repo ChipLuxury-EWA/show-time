@@ -4,6 +4,7 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap"
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import ProductAmountForm from "../components/ProductAmountForm";
+import { addToCart } from "../redux/slices/cart.slice";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -22,6 +23,13 @@ const Cart = () => {
     return cartItems.reduce((acc: number, item: any) => acc + item.chosenTicketsAmount * item.price, 0).toFixed(2);
   };
 
+  const addToCartHandler = async (e: Event, item: any) => {
+    const target = e.target as HTMLInputElement;
+    const chosenTicketsAmount = Number(target.value);
+
+    dispatch(addToCart({ ...item, chosenTicketsAmount }));
+  };
+
   const cartItemsDynamicList = cartItems.map((item: any) => (
     <ListGroup.Item key={item._id}>
       <Row>
@@ -34,7 +42,11 @@ const Cart = () => {
         <Col md={2}>{item.price} NIS</Col>
         <Col md={2}>
           {/* change length to tickets in stock */}
-          <ProductAmountForm value={item.chosenTicketsAmount} handleChange={(e: Event) => console.log(e)} length={10} />
+          <ProductAmountForm
+            value={item.chosenTicketsAmount}
+            handleChange={(e: Event) => addToCartHandler(e, item)}
+            length={10}
+          />
         </Col>
         <Col md={2}>
           <Button variant="light">
@@ -63,7 +75,9 @@ const Cart = () => {
               {getTotalPriceOfTicketsInCart()} NIS
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button className="btn-block" disabled={cartItems.length === 0}>Proceed to checkout</Button>
+              <Button className="btn-block" disabled={cartItems.length === 0}>
+                Proceed to checkout
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         </Card>

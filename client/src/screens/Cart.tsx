@@ -4,7 +4,7 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap"
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import ProductAmountForm from "../components/ProductAmountForm";
-import { addToCart } from "../redux/slices/cart.slice";
+import { addToCart, removeFromCart } from "../redux/slices/cart.slice";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -30,6 +30,11 @@ const Cart = () => {
     dispatch(addToCart({ ...item, chosenTicketsAmount }));
   };
 
+  const removeFromCartHandler = async (itemId: Number) => {
+    //TODO tompo add event logger here
+    dispatch(removeFromCart(itemId));
+  };
+
   const cartItemsDynamicList = cartItems.map((item: any) => (
     <ListGroup.Item key={item._id}>
       <Row>
@@ -49,7 +54,7 @@ const Cart = () => {
           />
         </Col>
         <Col md={2}>
-          <Button variant="light">
+          <Button variant="light" onClick={() => removeFromCartHandler(item._id)}>
             <FaTrash />
           </Button>
         </Col>

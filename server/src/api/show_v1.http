@@ -11,3 +11,4 @@ GET {{BASE_URL}}/shows/asd3 HTTP/1.1
 
 GET {{BASE_URL}}/url_not_exist HTTP/1.1
 ###
+

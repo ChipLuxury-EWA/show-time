@@ -1,0 +1,16 @@
+// admin routes:
+GET {{BASE_URL}}/user HTTP/1.1
+###
+
+POST {{BASE_URL}}/user HTTP/1.1
+###
+
+////////     by id routes:     ///////
+GET {{BASE_URL}}/user/649bcf28513ae138c84ab3c8 HTTP/1.1
+###
+
+PUT {{BASE_URL}}/user/649bcf28513ae138c84ab3c8 HTTP/1.1
+###
+
+DELETE {{BASE_URL}}/user/649bcf28513ae138c84ab3c8 HTTP/1.1
+###

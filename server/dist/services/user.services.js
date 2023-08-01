@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { UserNotFound, InvalidEmailOrPassword } from "../errors/db.errors.js";
 import User from "../models/user.model.js";
 async function getAllUsers() {
@@ -30,10 +31,14 @@ async function getUserByEmail({ userEmail, userPassword }) {
         throw Error;
     }
 }
+const createJwtToken = (userId) => {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "14d" });
+};
 const authenticateUser = async ({ userEmail, userPassword }) => {
     try {
-        const { _id, name, email, role } = await getUserByEmail({ userEmail, userPassword });
-        return { _id, name, email, role };
+        const { _id: userId, name, email, role } = await getUserByEmail({ userEmail, userPassword });
+        const token = createJwtToken(userId);
+        return { userId, name, email, role, token };
     }
     catch (error) {
         throw new InvalidEmailOrPassword();

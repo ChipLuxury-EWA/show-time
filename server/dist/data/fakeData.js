@@ -52,7 +52,7 @@ for (let i = 1; i <= AMOUNT_OF_USERS; i++) {
     const user = {
         name: faker.person.fullName(),
         email: faker.internet.email(),
-        password: `password${i}`,
+        password: bcrypt.hashSync("123456", 10),
         role: getRandomRole(),
     };
     users.push(user);

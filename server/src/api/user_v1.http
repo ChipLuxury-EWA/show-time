@@ -1,0 +1,20 @@
+////////     profile routes:    ////////
+GET {{BASE_URL}}/user/profile HTTP/1.1
+###
+
+PUT {{BASE_URL}}/user/profile HTTP/1.1
+###
+
+
+///    login logout routes:      //////
+POST {{BASE_URL}}/user/login HTTP/1.1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "userEmail": "{{EMAIL}}",
+  "userPassword": "{{password_1}}"
+}
+###
+
+
+POST {{BASE_URL}}/user/logout HTTP/1.1

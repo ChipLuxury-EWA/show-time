@@ -5,6 +5,7 @@ import { errorHandler, RouteNotFound } from "./middleware/errorMiddleware.js";
 const app: Express = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api", routes);
 app.use(RouteNotFound);
 app.use(errorHandler);

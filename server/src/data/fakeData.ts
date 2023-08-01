@@ -17,7 +17,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomRole() {
-  return ["admin", "showOrganizer", "buyer"][getRandomInt(0, 2)];
+  return ["ADMIN", "SHOW_ORGANIZER", "BUYER"][getRandomInt(0, 2)];
 }
 
 function getRandomLocation() {
@@ -41,19 +41,19 @@ const users = [
     name: `Admin User`,
     email: `admin@example.com`,
     password: bcrypt.hashSync("123456", 10),
-    role: "admin",
+    role: "ADMIN",
   },
   {
     name: `showOrganizer User`,
     email: `showOrganizer@example.com`,
     password: bcrypt.hashSync("123456", 10),
-    role: "showOrganizer",
+    role: "SHOW_ORGANIZER",
   },
   {
     name: `buyer User`,
     email: `buyer@example.com`,
     password: bcrypt.hashSync("123456", 10),
-    role: "buyer",
+    role: "BUYER",
   },
 ];
 for (let i = 1; i <= AMOUNT_OF_USERS; i++) {

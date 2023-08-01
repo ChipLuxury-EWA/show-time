@@ -3,7 +3,7 @@ import userService from "../services/user.services.js";
 // for public routes:
 export const authUser = asyncHandler(async (req, res) => {
     const { userEmail, userPassword } = req.body;
-    res.send(userService.authenticateUser());
+    res.send(await userService.authenticateUser({ userEmail, userPassword }));
 });
 export const registerNewUser = asyncHandler(async (req, res) => {
     res.send("registering user...!");

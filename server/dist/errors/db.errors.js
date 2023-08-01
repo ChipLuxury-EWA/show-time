@@ -18,3 +18,10 @@ export class UserNotFound extends MongoDBError {
         this.statusCode = 404;
     }
 }
+export class InvalidEmailOrPassword extends MongoDBError {
+    constructor(message = "Invalid email or password") {
+        super(message);
+        this.name = "InvalidEmailOrPassword";
+        this.statusCode = 401;
+    }
+}

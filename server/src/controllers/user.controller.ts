@@ -4,17 +4,17 @@ import { Request, Response } from "express";
 
 // for public routes:
 export const authUser = asyncHandler(async (req: Request, res: Response) => {
-  const {userEmail, userPassword} = req.body
-  res.send(userService.authenticateUser())
-})
+  const { userEmail, userPassword } = req.body;
+  res.send(await userService.authenticateUser({ userEmail, userPassword }));
+});
 
 export const registerNewUser = asyncHandler(async (req: Request, res: Response) => {
-  res.send("registering user...!")
-})
+  res.send("registering user...!");
+});
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-  res.send("logging out user")
-})
+  res.send("logging out user");
+});
 
 // for private user routes:
 export const getUserProfileByID = asyncHandler(async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const getUserProfileByID = asyncHandler(async (req: Request, res: Respons
 
 export const updateUserProfileById = asyncHandler(async (req: Request, res: Response) => {
   res.send("updating profile");
-})
+});
 
 // for private admin routes:
 export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
@@ -35,9 +35,9 @@ export const getUserByID = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {
-  res.send("update user...!")
-})
+  res.send("update user...!");
+});
 
 export const deleteUser = asyncHandler(async (req: Request, res: Response) => {
-  res.send("deleting user...!")
-})
+  res.send("deleting user...!");
+});

@@ -1,4 +1,6 @@
 // admin routes:
+
+# @name get_all_users
 GET {{BASE_URL}}/user HTTP/1.1
 ###
 

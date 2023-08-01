@@ -1,9 +1,12 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import userService from "../services/user.services.js";
+const maxAge = 1000 * 60 * 60 * 24 * 14; // 14 days
 // for public routes:
 export const authUser = asyncHandler(async (req, res) => {
     const { userEmail, userPassword } = req.body;
-    res.send(await userService.authenticateUser({ userEmail, userPassword }));
+    const { userId, name, email, role, token } = await userService.authenticateUser({ userEmail, userPassword });
+    res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV !== 'development', sameSite: 'strict', maxAge });
+    res.send({ userId, name, email, role });
 });
 export const registerNewUser = asyncHandler(async (req, res) => {
     res.send("registering user...!");

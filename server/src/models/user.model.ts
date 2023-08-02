@@ -7,7 +7,7 @@ export enum UserRoleEnum {
   BUYER = "BUYER" ,
 }
 
-interface IUser extends Document {
+export interface IUser extends Document {
   name: String;
   email: String;
   password: String;

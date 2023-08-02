@@ -28,3 +28,11 @@ export class InvalidEmailOrPassword extends MongoDBError {
     this.statusCode = 401;
   }
 }
+
+export class InvalidUserId extends MongoDBError {
+  constructor(message: string = "Invalid user id - format not matching mongoDB format (cast error)") {
+    super(message);
+    this.name = "InvalidUserId";
+    this.statusCode = 422;
+  }
+}

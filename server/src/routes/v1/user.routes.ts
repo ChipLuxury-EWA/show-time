@@ -11,29 +11,30 @@ import {
   updateUser,
   deleteUser,
 } from "../../controllers/user.controller.js";
+import { validateAdmin, validateUser } from "../../middleware/auth.middleware.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(getAllUsers)
+  .get(validateUser, validateAdmin, getAllUsers)
   .post(registerNewUser)
   .put()
   .delete();
 
 router
   .route("/profile")
-  .get(getUserProfileByID)
+  .get(validateUser, validateAdmin, getUserProfileByID)
   .post()
   .put(updateUserProfileById)
   .delete();
 
 router
   .route("/:id")
-  .get(getUserByID)
+  .get(validateUser, validateAdmin, getUserByID)
   .post()
-  .put(updateUser)
-  .delete(deleteUser);
+  .put(validateUser, validateAdmin, updateUser)
+  .delete(validateUser, validateAdmin, deleteUser);
 
 router.post('/login', authUser);
 router.post('/logout', logoutUser);

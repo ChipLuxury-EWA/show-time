@@ -7,8 +7,13 @@ const maxAge = 1000 * 60 * 60 * 24 * 14; // 14 days
 export const authUser = asyncHandler(async (req: Request, res: Response) => {
   const { userEmail, userPassword } = req.body;
   const { userId, name, email, role, token } = await userService.authenticateUser({ userEmail, userPassword });
-  
-  res.cookie('jwt', token,{httpOnly: true, secure: process.env.NODE_ENV !== 'development', sameSite: 'strict', maxAge});
+
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+    maxAge,
+  });
   res.send({ userId, name, email, role });
 });
 
@@ -17,6 +22,7 @@ export const registerNewUser = asyncHandler(async (req: Request, res: Response) 
 });
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  res.clearCookie("jwt");
   res.send("logging out user");
 });
 
@@ -35,7 +41,7 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getUserByID = asyncHandler(async (req: Request, res: Response) => {
-  res.send(await userService.getUserByID(req.params.id));
+  res.send(await userService.getUserByIdWithoutPassword(req.params.id));
 });
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {

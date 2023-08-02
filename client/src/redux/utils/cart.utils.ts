@@ -12,7 +12,7 @@ const calculateItemsPrice = (cartItems: any) => {
   );
 };
 
-const getTaxPrice = (price: number) => {
+const getTaxPrice = (price: number): number => {
   const taxAmount: number = 17;
   return Number(((taxAmount / 100) * price).toFixed(2));
 };

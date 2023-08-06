@@ -17,8 +17,8 @@ export const createNewUser = async ({ userEmail, userPassword, userName }) => {
         throw error;
     }
 };
-export const createJwtToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "14d" });
+export const createJwtToken = (userId, days = 14) => {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: `${days}d` });
 };
 export const isAdmin = (user) => {
     return user.role === UserRoleEnum.ADMIN;
@@ -46,14 +46,14 @@ export const checkIfUserExist = async (userEmail) => {
     }
 };
 export const stripUserDetails = (user, options) => {
-    const { _id: userId, name, email, role, createdAt, updatedAt, password } = user;
+    const { _id, name, email, role, createdAt, updatedAt, password } = user;
     switch (options) {
         case StripUserDetailsOptions.NO_DATES_AND_PASSWORD:
-            return { userId, name, email, role };
+            return { _id, name, email, role };
         case StripUserDetailsOptions.NO_PASSWORD:
-            return { userId, name, email, role, createdAt, updatedAt };
+            return { _id, name, email, role, createdAt, updatedAt };
         case StripUserDetailsOptions.NO_DATES:
-            return { userId, name, email, role, password };
+            return { _id, name, email, role, password };
         default:
             return user;
     }

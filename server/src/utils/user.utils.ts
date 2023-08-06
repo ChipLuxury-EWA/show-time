@@ -1,0 +1,67 @@
+import jwt, { Secret } from "jsonwebtoken";
+import { Types } from "mongoose";
+import User, { IUser, UserRoleEnum } from "../models/user.model.js";
+import { UserExistError } from "../errors/auth.errors.js";
+import { InvalidUserId } from "../errors/db.errors.js";
+import { UserDetails, UserDetailsWithName } from "../services/user.services.js";
+
+export enum StripUserDetailsOptions {
+  NO_PASSWORD = "NO_PASSWORD",
+  NO_DATES = "NO_DATES",
+  NO_DATES_AND_PASSWORD = "NO_DATES_AND_PASSWORD",
+}
+
+export const createNewUser = async ({ userEmail, userPassword, userName }: UserDetailsWithName): IUser => {
+  try {
+    return await User.create({ email: userEmail, password: userPassword, name: userName });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createJwtToken = (userId: string): string => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: "14d" });
+};
+
+export const isAdmin = (user: IUser) => {
+  return user.role === UserRoleEnum.ADMIN;
+};
+
+export const checkIdFormat = (userId: string) => {
+  if (!Types.ObjectId.isValid(userId)) throw new InvalidUserId();
+};
+
+export const getUserByEmail = async (userEmail: string): IUser | null => {
+  return await User.findOne({ email: userEmail }).select(`+password`);
+};
+
+export const getUserByEmailAndMatchPassword = async ({ userEmail, userPassword }: UserDetails) => {
+  const user = await getUserByEmail(userEmail);
+
+  if (user && (await user.matchPassword(userPassword))) {
+    return user;
+  } else {
+    throw Error;
+  }
+};
+
+export const checkIfUserExist = async (userEmail: string) => {
+  const user = await getUserByEmail(userEmail);
+  if (user) {
+    throw new UserExistError();
+  }
+};
+
+export const stripUserDetails = (user: IUser, options?: StripUserDetailsOptions) => {
+  const { _id: userId, name, email, role, createdAt, updatedAt, password } = user;
+  switch (options) {
+    case StripUserDetailsOptions.NO_DATES_AND_PASSWORD:
+      return { userId, name, email, role };
+    case StripUserDetailsOptions.NO_PASSWORD:
+      return { userId, name, email, role, createdAt, updatedAt };
+    case StripUserDetailsOptions.NO_DATES:
+      return { userId, name, email, role, password };
+    default:
+      return user;
+  }
+};

@@ -3,8 +3,7 @@ import userService from "../services/user.services.js";
 const maxAge = 1000 * 60 * 60 * 24 * 14; // 14 days
 // for public routes:
 export const authUser = asyncHandler(async (req, res) => {
-    const { userEmail, userPassword } = req.body;
-    const { userId, name, email, role, token } = await userService.authenticateUser({ userEmail, userPassword });
+    const { userId, name, email, role, token } = await userService.authenticateUser(req.body);
     res.cookie("jwt", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",

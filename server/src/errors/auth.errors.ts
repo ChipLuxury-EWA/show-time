@@ -36,3 +36,11 @@ export class ValidateAdminFailed extends AuthError {
     this.statusCode = 403;
   }
 }
+
+export class UserExistError extends AuthError {
+  constructor(message: string = "User already exist in the system") {
+    super(message);
+    this.name = "UserExistError";
+    this.statusCode = 400;
+  }
+}

@@ -18,7 +18,7 @@ export const authUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const registerNewUser = asyncHandler(async (req: Request, res: Response) => {
-  res.send("registering user...!");
+  res.status(201).send(await userService.registerNewUser(req.body));
 });
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
@@ -41,7 +41,7 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getUserByID = asyncHandler(async (req: Request, res: Response) => {
-  res.send(await userService.getUserByIdWithoutPassword(req.params.id));
+  res.send(await userService.getUserById(req.params.id));
 });
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {

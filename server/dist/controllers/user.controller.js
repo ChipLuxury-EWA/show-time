@@ -14,7 +14,7 @@ export const authUser = asyncHandler(async (req, res) => {
     res.send({ userId, name, email, role });
 });
 export const registerNewUser = asyncHandler(async (req, res) => {
-    res.send("registering user...!");
+    res.status(201).send(await userService.registerNewUser(req.body));
 });
 export const logoutUser = asyncHandler(async (req, res) => {
     res.clearCookie("jwt");
@@ -32,7 +32,7 @@ export const getAllUsers = asyncHandler(async (req, res) => {
     res.send(await userService.getAllUsers());
 });
 export const getUserByID = asyncHandler(async (req, res) => {
-    res.send(await userService.getUserByIdWithoutPassword(req.params.id));
+    res.send(await userService.getUserById(req.params.id));
 });
 export const updateUser = asyncHandler(async (req, res) => {
     res.send("update user...!");

@@ -1,16 +1,29 @@
 import jwt from "jsonwebtoken";
 import { Types } from "mongoose";
 import { UserNotFound, InvalidEmailOrPassword, InvalidUserId } from "../errors/db.errors.js";
+import { UserExistError } from "../errors/auth.errors.js";
 import User, { IUser, UserRoleEnum } from "../models/user.model.js";
 
 type UserDetails = { userEmail: string; userPassword: string };
+interface UserDetailsWithName extends UserDetails {
+  userName: string;
+}
+export enum StripUserDetailsOptions {
+  NO_PASSWORD = "NO_PASSWORD",
+  NO_DATES = "NO_DATES",
+  NO_DATES_AND_PASSWORD = "NO_DATES_AND_PASSWORD",
+}
 
 const checkIdFormat = (userId: string) => {
   if (!Types.ObjectId.isValid(userId)) throw new InvalidUserId();
 };
 
+const getUserByEmail = async (userEmail: string): IUser | null => {
+  return await User.findOne({ email: userEmail }).select(`+password`);
+};
+
 async function getUserByEmailAndMatchPassword({ userEmail, userPassword }: UserDetails) {
-  const user = await User.findOne({ email: userEmail }); // findOne return null if not found
+  const user = await getUserByEmail(userEmail);
 
   if (user && (await user.matchPassword(userPassword))) {
     return user;
@@ -35,10 +48,10 @@ async function getAllUsers() {
   }
 }
 
-async function getUserByIdWithoutPassword(userId: string): IUser {
+async function getUserById(userId: string): IUser {
   try {
     checkIdFormat(userId);
-    const user: IUser | null = await User.findById(userId).select(`-password`);
+    const user: IUser | null = await User.findById(userId);
     if (user) {
       return user;
     } else {
@@ -48,8 +61,6 @@ async function getUserByIdWithoutPassword(userId: string): IUser {
     throw error;
   }
 }
-
-
 
 const authenticateUser = async ({ userEmail, userPassword }: UserDetails) => {
   try {
@@ -61,9 +72,45 @@ const authenticateUser = async ({ userEmail, userPassword }: UserDetails) => {
   }
 };
 
+const checkIfUserExist = async (userEmail: string) => {
+  const user = await getUserByEmail(userEmail);
+  if (user) {
+    throw new UserExistError();
+  }
+};
+
+const createNewUser = async ({ userEmail, userPassword, userName }: UserDetailsWithName): IUser => {
+  try {
+    return await User.create({ email: userEmail, password: userPassword, name: userName });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const stripUserDetails = (user: IUser, options?: StripUserDetailsOptions) => {
+  const { _id: userId, name, email, role, createdAt, updatedAt, password } = user;
+  switch (options) {
+    case StripUserDetailsOptions.NO_DATES_AND_PASSWORD:
+      return { userId, name, email, role };
+    case StripUserDetailsOptions.NO_PASSWORD:
+      return { userId, name, email, role, createdAt, updatedAt };
+    case StripUserDetailsOptions.NO_DATES:
+      return { userId, name, email, role, password };
+    default:
+      return user;
+  }
+};
+
+const registerNewUser = async ({ userEmail, userPassword, userName }: UserDetailsWithName) => {
+  await checkIfUserExist(userEmail);
+  const user = await createNewUser({ userEmail, userPassword, userName });
+  return stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+};
+
 export default {
   isAdmin,
   getAllUsers,
-  getUserByIdWithoutPassword,
+  getUserById: getUserById,
   authenticateUser,
+  registerNewUser,
 };

@@ -8,7 +8,7 @@ export const validateUser = asyncHandler(async (req, res, next) => {
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            req.user = await userServices.getUserByIdWithoutPassword(decoded.userId);
+            req.user = await userServices.getUserById(decoded.userId);
             next();
         }
         catch (error) {

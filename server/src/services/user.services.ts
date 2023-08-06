@@ -1,5 +1,5 @@
 import { UserNotFound, InvalidEmailOrPassword, GetAllUsersError } from "../errors/db.errors.js";
-import User, { IUser } from "../models/user.model.js";
+import User, { IUser, UserRoleEnum } from "../models/user.model.js";
 import {
   checkIdFormat,
   checkIfUserExist,
@@ -9,11 +9,23 @@ import {
   stripUserDetails,
 } from "../utils/user.utils.js";
 import { StripUserDetailsOptions } from "../utils/user.utils.js";
+import { Response } from "express";
 
 export type UserDetails = { userEmail: string; userPassword: string };
 export interface UserDetailsWithName extends UserDetails {
   userName: string;
 }
+
+export type ReturnedUserDetails = {
+  _id: string;
+  name: string;
+  email: string;
+  role: keyof typeof UserRoleEnum;
+  password?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  token?: any;
+};
 
 async function getAllUsers() {
   try {
@@ -23,7 +35,7 @@ async function getAllUsers() {
   }
 }
 
-async function getUserById(userId: string): IUser {
+async function getUserById(userId: string): Promise<IUser | null> {
   try {
     checkIdFormat(userId);
     const user: IUser | null = await User.findById(userId);
@@ -37,20 +49,36 @@ async function getUserById(userId: string): IUser {
   }
 }
 
-const authenticateUser = async ({ userEmail, userPassword }: UserDetails) => {
+const authenticateUser = async ({ userEmail, userPassword }: UserDetails): Promise<ReturnedUserDetails> => {
   try {
-    const { _id: userId, name, email, role } = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
-    const token: string = createJwtToken(userId);
-    return { userId, name, email, role, token };
+    const user = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
+    const userDetails = stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+    const token: string = createJwtToken(user._id);
+    return { ...userDetails, token };
   } catch (error) {
     throw new InvalidEmailOrPassword();
   }
 };
 
-const registerNewUser = async ({ userEmail, userPassword, userName }: UserDetailsWithName) => {
+const registerNewUser = async ({
+  userEmail,
+  userPassword,
+  userName,
+}: UserDetailsWithName): Promise<ReturnedUserDetails> => {
   await checkIfUserExist(userEmail);
   const user = await createNewUser({ userEmail, userPassword, userName });
-  return stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+  const token: string = createJwtToken(user._id);
+  return {...stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD), token};
+};
+
+const implementTokenInResponse = (res: Response, token: string, days: number = 14) => {
+  const maxAge = 1000 * 60 * 60 * 24 * days;
+  res.cookie("jwt", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+    maxAge,
+  });
 };
 
 export default {
@@ -58,4 +86,5 @@ export default {
   getUserById,
   authenticateUser,
   registerNewUser,
+  implementTokenInResponse,
 };

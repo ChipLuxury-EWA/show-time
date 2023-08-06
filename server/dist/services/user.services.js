@@ -27,22 +27,34 @@ async function getUserById(userId) {
 }
 const authenticateUser = async ({ userEmail, userPassword }) => {
     try {
-        const { _id: userId, name, email, role } = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
-        const token = createJwtToken(userId);
-        return { userId, name, email, role, token };
+        const user = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
+        const userDetails = stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+        const token = createJwtToken(user._id);
+        return { ...userDetails, token };
     }
     catch (error) {
         throw new InvalidEmailOrPassword();
     }
 };
-const registerNewUser = async ({ userEmail, userPassword, userName }) => {
+const registerNewUser = async ({ userEmail, userPassword, userName, }) => {
     await checkIfUserExist(userEmail);
     const user = await createNewUser({ userEmail, userPassword, userName });
-    return stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+    const token = createJwtToken(user._id);
+    return { ...stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD), token };
+};
+const implementTokenInResponse = (res, token, days = 14) => {
+    const maxAge = 1000 * 60 * 60 * 24 * days;
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
+        maxAge,
+    });
 };
 export default {
     getAllUsers,
     getUserById,
     authenticateUser,
     registerNewUser,
+    implementTokenInResponse,
 };

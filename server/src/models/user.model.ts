@@ -8,13 +8,14 @@ export enum UserRoleEnum {
 }
 
 export interface IUser extends Document {
-  name: String;
-  email: String;
-  password: String;
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
   role: keyof typeof UserRoleEnum;
   matchPassword(enteredPassword: string): Promise<boolean>;
-  createdAt: String;
-  updatedAt: String;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const userSchema = new Schema(

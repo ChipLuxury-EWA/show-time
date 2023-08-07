@@ -1,4 +1,4 @@
-import { USERS_URL } from "../constants/api.constants";
+import { USER_URL } from "../constants/api.constants";
 import { apiSlice } from "./api.slice";
 
 export enum UserRoleEnum {
@@ -7,21 +7,17 @@ export enum UserRoleEnum {
   BUYER = "BUYER",
 }
 
-export interface IUserDetails {
-  _id: string;
-  name: string;
+export interface IUserDetailsForLogin {
   email: string;
-  role: keyof typeof UserRoleEnum;
-  createdAt?: string;
-  updatedAt?: string;
+  password: string;
 }
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<[IUserDetails], void>({
+    login: builder.mutation<[IUserDetailsForLogin], IUserDetailsForLogin>({
       //TODO tompo add the right type here - replace void
       query: (data) => ({
-        url: `${USERS_URL}/auth`,
+        url: `${USER_URL}/login`,
         method: "POST",
         body: data,
       }),

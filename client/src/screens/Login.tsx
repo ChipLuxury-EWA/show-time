@@ -1,15 +1,42 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
+import Loader from "../components/Loader";
+import { useLoginMutation } from "../redux/slices/userApi.slice";
+import { setCredentials } from "../redux/slices/auth.slice";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { userInfo } = useSelector((state: any) => state.auth);
+  const [login, { isLoading }] = useLoginMutation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const submitHandler = (e: any): void => {
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const redirect = searchParams.get("redirect") || "/home";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, redirect, navigate]);
+
+  const submitHandler = async (e: any) => {
     e.preventDefault();
-    console.log("submit");
+    try {
+      const answer = await login({ email, password }).unwrap();
+      dispatch(setCredentials(answer));
+      navigate(redirect);
+    } catch (error: any) {
+      toast.error(error?.data?.message || error?.error);
+    }
   };
 
   return (

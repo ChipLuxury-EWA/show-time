@@ -61,14 +61,21 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Button type="submit" variant="primary" className="mt-2">
-          Sign in
-        </Button>
+        <Form.Group>
+          <Row xs="auto">
+            <Col>
+              <Button type="submit" variant="primary" className="mt-2" disabled={isLoading}>
+                Sign in
+              </Button>
+            </Col>
+            <Col>{isLoading && <Loader height="30px" width="30px" marginTop="11px" />}</Col>
+          </Row>
+        </Form.Group>
       </Form>
 
       <Row className="py-3">
         <Col>
-          New Customer? <Link to="/register">Register now!</Link>
+          New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>Register now!</Link>
         </Col>
       </Row>
     </FormContainer>

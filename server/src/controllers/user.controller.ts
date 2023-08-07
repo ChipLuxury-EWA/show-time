@@ -1,4 +1,5 @@
 import asyncHandler from "../middleware/asyncHandler.js";
+import { RequestWithUserDetails } from "../middleware/auth.middleware.js";
 import userService from "../services/user.services.js";
 import { Request, Response } from "express";
 
@@ -21,12 +22,12 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // for private user routes:
-export const getUserProfileByID = asyncHandler(async (req: Request, res: Response) => {
-  res.send("getting user profile by id");
+export const getUserProfileByID = asyncHandler(async (req: RequestWithUserDetails, res: Response) => {
+  res.send(await userService.getUserById(req.user._id));
 });
 
-export const updateUserProfileById = asyncHandler(async (req: Request, res: Response) => {
-  res.send("updating profile");
+export const updateUserProfileById = asyncHandler(async (req: RequestWithUserDetails, res: Response) => {
+  res.send(await userService.updateUserProfileById(req.user._id, req.body));
 });
 
 // for private admin routes:

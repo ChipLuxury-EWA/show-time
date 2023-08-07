@@ -10,9 +10,9 @@ router
     .delete();
 router
     .route("/profile")
-    .get(validateUser, validateAdmin, getUserProfileByID)
+    .get(validateUser, getUserProfileByID)
     .post()
-    .put(updateUserProfileById)
+    .put(validateUser, updateUserProfileById)
     .delete();
 router
     .route("/:id")

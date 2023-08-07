@@ -7,7 +7,7 @@ import { isAdmin } from "../utils/user.utils.js";
 import { IUser } from "../models/user.model.js";
 
 export interface RequestWithUserDetails extends Request {
-  user: IUser | null;
+  user: IUser;
 }
 
 //for protect routes:

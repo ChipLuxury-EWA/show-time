@@ -17,10 +17,10 @@ export const logoutUser = asyncHandler(async (req, res) => {
 });
 // for private user routes:
 export const getUserProfileByID = asyncHandler(async (req, res) => {
-    res.send("getting user profile by id");
+    res.send(await userService.getUserById(req.user._id));
 });
 export const updateUserProfileById = asyncHandler(async (req, res) => {
-    res.send("updating profile");
+    res.send(await userService.updateUserProfileById(req.user._id, req.body));
 });
 // for private admin routes:
 export const getAllUsers = asyncHandler(async (req, res) => {

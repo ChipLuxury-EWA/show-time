@@ -1,4 +1,5 @@
 import { UserNotFound, InvalidEmailOrPassword, GetAllUsersError } from "../errors/db.errors.js";
+import { MissingNewUserDetails } from "../errors/user.errors.js";
 import User, { IUser, UserRoleEnum } from "../models/user.model.js";
 import {
   checkIdFormat,
@@ -11,9 +12,9 @@ import {
 import { StripUserDetailsOptions } from "../utils/user.utils.js";
 import { Response } from "express";
 
-export type UserDetails = { userEmail: string; userPassword: string };
+export type UserDetails = { email: string; password: string };
 export interface UserDetailsWithName extends UserDetails {
-  userName: string;
+  name: string;
 }
 
 export type ReturnedUserDetails = {
@@ -35,7 +36,7 @@ async function getAllUsers() {
   }
 }
 
-async function getUserById(userId: string): Promise<IUser | null> {
+async function getUserById(userId: string): Promise<IUser> {
   try {
     checkIdFormat(userId);
     const user: IUser | null = await User.findById(userId);
@@ -49,9 +50,9 @@ async function getUserById(userId: string): Promise<IUser | null> {
   }
 }
 
-const authenticateUser = async ({ userEmail, userPassword }: UserDetails): Promise<ReturnedUserDetails> => {
+const authenticateUser = async ({ email, password }: UserDetails): Promise<ReturnedUserDetails> => {
   try {
-    const user = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
+    const user = await getUserByEmailAndMatchPassword({ email, password });
     const userDetails = stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
     const token: string = createJwtToken(user._id);
     return { ...userDetails, token };
@@ -60,15 +61,11 @@ const authenticateUser = async ({ userEmail, userPassword }: UserDetails): Promi
   }
 };
 
-const registerNewUser = async ({
-  userEmail,
-  userPassword,
-  userName,
-}: UserDetailsWithName): Promise<ReturnedUserDetails> => {
-  await checkIfUserExist(userEmail);
-  const user = await createNewUser({ userEmail, userPassword, userName });
+const registerNewUser = async ({ email, password, name }: UserDetailsWithName): Promise<ReturnedUserDetails> => {
+  await checkIfUserExist(email);
+  const user = await createNewUser({ email, password, name });
   const token: string = createJwtToken(user._id);
-  return {...stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD), token};
+  return { ...stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD), token };
 };
 
 const implementTokenInResponse = (res: Response, token: string, days: number = 14) => {
@@ -81,10 +78,25 @@ const implementTokenInResponse = (res: Response, token: string, days: number = 1
   });
 };
 
+const updateUserProfileById = async (userId: string, newDetails: UserDetailsWithName) => {
+  if (Object.keys(newDetails).length === 0) throw new MissingNewUserDetails();
+
+  newDetails.email && (await checkIfUserExist(newDetails.email)); // check if new email is already taken by other user
+  const user = await getUserById(userId);
+
+  newDetails.name && (user.name = newDetails.name);
+  newDetails.email && (user.email = newDetails.email);
+  newDetails.password && (user.password = newDetails.password);
+
+  const updateUser = await user.save();
+  return stripUserDetails(updateUser, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+};
+
 export default {
   getAllUsers,
   getUserById,
   authenticateUser,
   registerNewUser,
   implementTokenInResponse,
+  updateUserProfileById,
 };

@@ -9,9 +9,9 @@ export var StripUserDetailsOptions;
     StripUserDetailsOptions["NO_DATES"] = "NO_DATES";
     StripUserDetailsOptions["NO_DATES_AND_PASSWORD"] = "NO_DATES_AND_PASSWORD";
 })(StripUserDetailsOptions || (StripUserDetailsOptions = {}));
-export const createNewUser = async ({ userEmail, userPassword, userName }) => {
+export const createNewUser = async ({ email, password, name }) => {
     try {
-        return await User.create({ email: userEmail, password: userPassword, name: userName });
+        return await User.create({ email, password, name });
     }
     catch (error) {
         throw error;
@@ -30,9 +30,9 @@ export const checkIdFormat = (userId) => {
 export const getUserByEmail = async (userEmail) => {
     return await User.findOne({ email: userEmail }).select(`+password`);
 };
-export const getUserByEmailAndMatchPassword = async ({ userEmail, userPassword }) => {
-    const user = await getUserByEmail(userEmail);
-    if (user && (await user.matchPassword(userPassword))) {
+export const getUserByEmailAndMatchPassword = async ({ email, password }) => {
+    const user = await getUserByEmail(email);
+    if (user && (await user.matchPassword(password))) {
         return user;
     }
     else {

@@ -11,9 +11,9 @@ export enum StripUserDetailsOptions {
   NO_DATES_AND_PASSWORD = "NO_DATES_AND_PASSWORD",
 }
 
-export const createNewUser = async ({ userEmail, userPassword, userName }: UserDetailsWithName): Promise<IUser> => {
+export const createNewUser = async ({ email, password, name }: UserDetailsWithName): Promise<IUser> => {
   try {
-    return await User.create({ email: userEmail, password: userPassword, name: userName });
+    return await User.create({ email, password, name });
   } catch (error) {
     throw error;
   }
@@ -35,10 +35,10 @@ export const getUserByEmail = async (userEmail: string): Promise<IUser | null> =
   return await User.findOne({ email: userEmail }).select(`+password`);
 };
 
-export const getUserByEmailAndMatchPassword = async ({ userEmail, userPassword }: UserDetails) => {
-  const user = await getUserByEmail(userEmail);
+export const getUserByEmailAndMatchPassword = async ({ email, password }: UserDetails) => {
+  const user = await getUserByEmail(email);
 
-  if (user && (await user.matchPassword(userPassword))) {
+  if (user && (await user.matchPassword(password))) {
     return user;
   } else {
     throw Error;

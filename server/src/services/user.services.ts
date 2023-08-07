@@ -89,7 +89,6 @@ const updateUserProfileById = async (userId: string, newDetails: UserDetailsWith
   newDetails.password && (user.password = newDetails.password);
 
   const updateUser = await user.save();
-  console.log(updateUser);
   return stripUserDetails(updateUser, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
 };
 

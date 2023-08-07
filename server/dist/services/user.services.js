@@ -61,7 +61,6 @@ const updateUserProfileById = async (userId, newDetails) => {
     newDetails.email && (user.email = newDetails.email);
     newDetails.password && (user.password = newDetails.password);
     const updateUser = await user.save();
-    console.log(updateUser);
     return stripUserDetails(updateUser, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
 };
 export default {

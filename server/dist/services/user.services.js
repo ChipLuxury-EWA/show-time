@@ -1,38 +1,19 @@
-import jwt from "jsonwebtoken";
-import { Types } from "mongoose";
-import { UserNotFound, InvalidEmailOrPassword, InvalidUserId } from "../errors/db.errors.js";
-import User, { UserRoleEnum } from "../models/user.model.js";
-const checkIdFormat = (userId) => {
-    if (!Types.ObjectId.isValid(userId))
-        throw new InvalidUserId();
-};
-async function getUserByEmailAndMatchPassword({ userEmail, userPassword }) {
-    const user = await User.findOne({ email: userEmail }); // findOne return null if not found
-    if (user && (await user.matchPassword(userPassword))) {
-        return user;
-    }
-    else {
-        throw Error;
-    }
-}
-const createJwtToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "14d" });
-};
-const isAdmin = (user) => {
-    return user.role === UserRoleEnum.ADMIN;
-};
+import { UserNotFound, InvalidEmailOrPassword, GetAllUsersError } from "../errors/db.errors.js";
+import User from "../models/user.model.js";
+import { checkIdFormat, checkIfUserExist, createJwtToken, createNewUser, getUserByEmailAndMatchPassword, stripUserDetails, } from "../utils/user.utils.js";
+import { StripUserDetailsOptions } from "../utils/user.utils.js";
 async function getAllUsers() {
     try {
         return await User.find({});
     }
     catch (error) {
-        console.log(`Error fetching all users`);
+        throw new GetAllUsersError();
     }
 }
-async function getUserByIdWithoutPassword(userId) {
+async function getUserById(userId) {
     try {
         checkIdFormat(userId);
-        const user = await User.findById(userId).select(`-password`);
+        const user = await User.findById(userId);
         if (user) {
             return user;
         }
@@ -46,17 +27,34 @@ async function getUserByIdWithoutPassword(userId) {
 }
 const authenticateUser = async ({ userEmail, userPassword }) => {
     try {
-        const { _id: userId, name, email, role } = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
-        const token = createJwtToken(userId);
-        return { userId, name, email, role, token };
+        const user = await getUserByEmailAndMatchPassword({ userEmail, userPassword });
+        const userDetails = stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD);
+        const token = createJwtToken(user._id);
+        return { ...userDetails, token };
     }
     catch (error) {
         throw new InvalidEmailOrPassword();
     }
 };
+const registerNewUser = async ({ userEmail, userPassword, userName, }) => {
+    await checkIfUserExist(userEmail);
+    const user = await createNewUser({ userEmail, userPassword, userName });
+    const token = createJwtToken(user._id);
+    return { ...stripUserDetails(user, StripUserDetailsOptions.NO_DATES_AND_PASSWORD), token };
+};
+const implementTokenInResponse = (res, token, days = 14) => {
+    const maxAge = 1000 * 60 * 60 * 24 * days;
+    res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
+        maxAge,
+    });
+};
 export default {
-    isAdmin,
     getAllUsers,
-    getUserByIdWithoutPassword,
+    getUserById,
     authenticateUser,
+    registerNewUser,
+    implementTokenInResponse,
 };

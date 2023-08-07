@@ -32,3 +32,10 @@ export class InvalidUserId extends MongoDBError {
         this.statusCode = 422;
     }
 }
+export class GetAllUsersError extends MongoDBError {
+    constructor(message = "could not fetch all users") {
+        super(message);
+        this.name = "GetAllUsersError";
+        this.statusCode = 500;
+    }
+}

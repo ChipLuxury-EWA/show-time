@@ -3,8 +3,16 @@
 # @name get_all_users
 GET {{BASE_URL}}/user HTTP/1.1
 ###
-
+# @name register_new_user
 POST {{BASE_URL}}/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "userName": "{{NAME}}",
+  "userEmail": "{{EMAIL2}}",
+  "userPassword": "{{password_1}}"
+}
+###
 ###
 
 ////////     by id routes:     ///////

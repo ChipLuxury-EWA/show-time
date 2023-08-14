@@ -1,5 +1,5 @@
 import { Nav, Stack } from "react-bootstrap";
-import { CgHome, CgUser, CgShoppingCart } from "react-icons/cg";
+import { CgHome, CgShoppingCart } from "react-icons/cg";
 import { HiOutlineTicket } from "react-icons/hi";
 import { HiOutlineEnvelope } from "react-icons/hi2";
 import ProductsInCartBadge from "./ProductsInCartBadge";
@@ -34,13 +34,6 @@ const MenuButton = ({ menuItemType }: MenuItemType) => {
           <HiOutlineTicket key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
           <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
             My Shows
-          </span>,
-        ];
-      case "profile":
-        return [
-          <CgUser key={menuItemType + "icon"} className={ICON_CLASS_NAME} />,
-          <span key={menuItemType + "label"} className={LABEL_CLASS_NAME}>
-            Profile
           </span>,
         ];
       case "cart":

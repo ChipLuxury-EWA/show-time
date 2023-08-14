@@ -2,3 +2,8 @@ body {
   padding-top: 10px;
   padding-bottom: 80px; /*space for navbar*/
 }
+
+/* cancel little arrow after profile dropdown menu */
+#profile-dropdown::after {
+  display: none !important; 
+}

@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import MenuButton from "./MenuButton";
+import ProfileButton from "./ProfileButton";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const Footer = () => {
     navigate(`/${eventKey}`);
     console.log(`pressed ${eventKey}`); // TODO tompo add event logger
   };
-  const menuItemsTypes = ["home", "inbox", "myShows", "profile", "cart"];
+  const menuItemsTypes = ["home", "inbox", "myShows", "cart"];
   const menuItemsDynamicList = menuItemsTypes.map((type) => (
     <MenuButton key={type} menuItemType={type} />
   ));
@@ -27,6 +28,7 @@ const Footer = () => {
             }}
           >
             {menuItemsDynamicList}
+            <ProfileButton/>
           </Nav>
         </Container>
       </Navbar>

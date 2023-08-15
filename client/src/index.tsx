@@ -16,6 +16,7 @@ import Profile from "./screens/Profile";
 import Product from "./screens/Product";
 import Cart from "./screens/Cart";
 import Login from "./screens/Login";
+import Register from "./screens/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<Cart />} />
       <Route path="/user">
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Route>
     </Route>
   )

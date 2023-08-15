@@ -22,7 +22,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    logout: builder.mutation<void, void>({
+      //TODO tompo add the right type here - replace void
+      query: () => ({
+        url: `${USER_URL}/logout`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = userApiSlice;
+export const { useLoginMutation, useLogoutMutation } = userApiSlice;

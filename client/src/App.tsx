@@ -1,4 +1,6 @@
 import { Container } from "react-bootstrap";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { Outlet } from "react-router-dom";
 import Footer from "./components/Footer";
@@ -10,6 +12,7 @@ function App() {
         <Outlet />
         <Footer />
       </Container>
+      <ToastContainer />
     </div>
   );
 }

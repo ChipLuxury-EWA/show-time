@@ -8,9 +8,9 @@ POST {{BASE_URL}}/user HTTP/1.1
 Content-Type: application/json
 
 {
-  "userName": "{{NAME}}",
-  "userEmail": "{{EMAIL2}}",
-  "userPassword": "{{password_1}}"
+  "name": "{{NAME}}",
+  "email": "{{EMAIL2}}h",
+  "password": "{{password_1}}"
 }
 ###
 ###

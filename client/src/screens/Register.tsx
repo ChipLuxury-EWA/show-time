@@ -4,19 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
-import { useLoginMutation } from "../redux/slices/userApi.slice";
+import { useRegisterMutation } from "../redux/slices/userApi.slice";
 import { setCredentials } from "../redux/slices/auth.slice";
 import { toast } from "react-toastify";
 
-const Login = () => {
+const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state: any) => state.auth);
-  const [login, { isLoading }] = useLoginMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -30,19 +32,33 @@ const Login = () => {
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    try {
-      const answer = await login({ email, password }).unwrap();
-      dispatch(setCredentials(answer));
-      navigate(redirect);
-    } catch (error: any) {
-      toast.error(error?.data?.message || error?.error);
+    if (password !== confirmedPassword) {
+      toast.error("Passwords does mot match");
+    } else {
+      try {
+        const answer = await register({ name, email, password }).unwrap();
+        dispatch(setCredentials(answer));
+        navigate(redirect);
+      } catch (error: any) {
+        toast.error(error?.data?.message || error?.error);
+      }
     }
   };
 
   return (
     <FormContainer>
-      <h1>Sign in</h1>
+      <h1>Sign up</h1>
       <Form onSubmit={submitHandler}>
+        <Form.Group controlId="name" className="my-3">
+          <Form.Label>Full name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter your full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          ></Form.Control>
+        </Form.Group>
         <Form.Group controlId="email" className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -51,15 +67,25 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            ></Form.Control>
+          ></Form.Control>
         </Form.Group>
         <Form.Group controlId="password" className="my-3">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Enter password"
+            placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          ></Form.Control>
+        </Form.Group>
+        <Form.Group controlId="confirmedPassword" className="my-3">
+          <Form.Label>confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter the same password"
+            value={confirmedPassword}
+            onChange={(e) => setConfirmedPassword(e.target.value)}
             required
             ></Form.Control>
         </Form.Group>
@@ -67,7 +93,7 @@ const Login = () => {
           <Row xs="auto">
             <Col>
               <Button type="submit" variant="primary" className="mt-2" disabled={isLoading}>
-                Sign in
+                Sign up
               </Button>
             </Col>
             <Col>{isLoading && <Loader height="30px" width="30px" marginTop="11px" />}</Col>
@@ -77,12 +103,12 @@ const Login = () => {
 
       <Row className="py-3">
         <Col>
-          New Customer?{" "}
-          <Link to={redirect ? `/user/register?redirect=${redirect}` : "/user/register"}>Register now!</Link>
+          already have an account?{" "}
+          <Link to={redirect ? `/user/login?redirect=${redirect}` : "/user/login"}>Login now!</Link>
         </Col>
       </Row>
     </FormContainer>
   );
 };
 
-export default Login;
+export default Register;

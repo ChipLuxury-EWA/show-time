@@ -12,8 +12,20 @@ export interface IUserDetailsForLogin {
   password: string;
 }
 
+export interface IUserDetailsForRegister extends IUserDetailsForLogin {
+  name: string;
+}
+
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    register: builder.mutation<[IUserDetailsForRegister], IUserDetailsForRegister>({
+      //TODO tompo add the right type here - replace void
+      query: (data) => ({
+        url: `${USER_URL}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     login: builder.mutation<[IUserDetailsForLogin], IUserDetailsForLogin>({
       //TODO tompo add the right type here - replace void
       query: (data) => ({
@@ -32,4 +44,4 @@ export const userApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = userApiSlice;
+export const { useRegisterMutation, useLoginMutation, useLogoutMutation } = userApiSlice;

@@ -1,6 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { CgUser } from "react-icons/cg";
 import { Nav, NavDropdown, Stack } from "react-bootstrap";
+import { useLogoutMutation } from "../redux/slices/userApi.slice";
+import { clearCredentials } from "../redux/slices/auth.slice";
 
 const IconAndName = ({ name }: { name: string }) => {
   return (
@@ -12,10 +15,19 @@ const IconAndName = ({ name }: { name: string }) => {
 };
 
 const ProfileButton = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state: any) => state.auth);
+  const [logoutApiCall] = useLogoutMutation();
 
-  const logoutHandler = () => {
-    console.log("Logging out fe - profileButton.tsx");
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(clearCredentials());
+      navigate("user/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

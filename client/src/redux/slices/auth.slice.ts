@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setCredentialsUtil } from "../utils/auth.utils";
+import { setCredentialsUtil, clearCredentialsUtil } from "../utils/auth.utils";
 
 interface IInitialState {
   userInfo: any;
@@ -17,8 +17,11 @@ const initialState: IInitialState = {
 const authSlice: any = createSlice({
   name: "auth",
   initialState,
-  reducers: { setCredentials: (state, action) => setCredentialsUtil(state, action) },
+  reducers: {
+    setCredentials: (state, action) => setCredentialsUtil(state, action),
+    clearCredentials: (state) => clearCredentialsUtil(state),
+  },
 });
 
-export const { setCredentials } = authSlice.actions;
+export const { setCredentials, clearCredentials } = authSlice.actions;
 export default authSlice.reducer;

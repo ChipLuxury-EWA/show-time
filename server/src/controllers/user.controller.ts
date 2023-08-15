@@ -18,7 +18,7 @@ export const registerNewUser = asyncHandler(async (req: Request, res: Response) 
 
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   res.clearCookie("jwt");
-  res.send("logging out user");
+  res.json("logging out user");
 });
 
 // for private user routes:

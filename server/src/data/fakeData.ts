@@ -70,9 +70,8 @@ for (let i = 1; i <= AMOUNT_OF_USERS; i++) {
 const shows = [];
 for (let i = 1; i <= SHOWS_AMOUNT; i++) {
   const show = {
-    // _id: i.toString(),
     categoryId: getRandomInt(1, AMOUNT_OF_CATEGORY), // Assuming 4 categories available
-    ticketIds: [],
+    ticketsData: [],
     sellerId: getRandomInt(1, 3),
     // TODO tompo: add id by user role (if user.role == role.id)
     name: faker.company.name(),
@@ -96,14 +95,13 @@ const tickets: any = [];
 shows.forEach((show) => {
   for (let i = 1; i <= getRandomInt(3, MAX_TICKET_AMOUNT_PER_SHOW); i++) {
     const ticket = {
-      // _id: parseInt(show._id + i.toString()),
-      showId: show._id, // Assuming 8 shows available
-      buyerId: getRandomInt(4, 8), // Assuming 8 buyers available
-      status: getRandomInt(1, 3), // Assuming 3 status options available
+      showId: "", // Assuming 8 shows available
+      // buyerId: getRandomInt(4, 8), // Assuming 8 buyers available
+      // status: getRandomInt(1, 3), // Assuming 3 status options available
       discountPrice: getRandomInt(5, 50), // Random discount price (5 to 50)
     };
     tickets.push(ticket);
-    show.ticketIds.push(ticket._id);
+    show.ticketsData.push(ticket);
   }
 });
 

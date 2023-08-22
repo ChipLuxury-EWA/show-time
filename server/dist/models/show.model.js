@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 const showSchema = new Schema({
-    showOrganizer: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    showOrganizer: { type: Schema.Types.ObjectId, ref: "User" },
     categoryId: { type: String },
-    ticketsIds: { type: [Schema.Types.ObjectId], required: true, ref: "Ticket" },
+    ticketsIds: { type: [Schema.Types.ObjectId], ref: "Ticket" },
     name: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
     location: { type: String, enum: ["south", "north", "center"] },

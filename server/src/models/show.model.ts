@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 interface IShow {
   _id: string;
   // TODO tompo implement ts mongoose types:
-  showOrganizer: any;
+  showOrganizer: string | undefined;
   categoryId: any;
   ticketsIds: any[];
   reviews: any;
@@ -23,9 +23,9 @@ interface IShow {
 
 const showSchema = new Schema<IShow>(
   {
-    showOrganizer: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+    showOrganizer: { type: Schema.Types.ObjectId, ref: "User" },
     categoryId: { type: String },
-    ticketsIds: { type: [Schema.Types.ObjectId], required: true, ref: "Ticket" },
+    ticketsIds: { type: [Schema.Types.ObjectId], ref: "Ticket" },
     name: { type: String, required: true },
     price: { type: Number, required: true, default: 0 },
     location: { type: String, enum: ["south", "north", "center"] },

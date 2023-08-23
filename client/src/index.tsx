@@ -35,7 +35,7 @@ const router = createBrowserRouter(
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
-      <Route path="" element={<PrivateRoute />}> {/*every route below this line is private*/}
+      <Route path="" element={<PrivateRoute />}> {/*every route below this route is private*/}
         <Route path="/shipping" element={<Shipping />} />
       </Route>
     </Route>

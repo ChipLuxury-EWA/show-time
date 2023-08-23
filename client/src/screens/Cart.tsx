@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Button, Card } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import Message from "../components/Message";
 import ProductAmountForm from "../components/ProductAmountForm";
@@ -33,6 +33,10 @@ const Cart = () => {
   const removeFromCartHandler = async (itemId: Number) => {
     //TODO tompo add event logger here
     dispatch(removeFromCart(itemId));
+  };
+
+  const handleCheckout = () => {
+    navigate("/shipping");
   };
 
   const cartItemsDynamicList = cartItems.map((item: any) => (
@@ -80,7 +84,7 @@ const Cart = () => {
               {getTotalPriceOfTicketsInCart()} NIS
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button className="btn-block" disabled={cartItems.length === 0}>
+              <Button onClick={handleCheckout} className="btn-block" disabled={cartItems.length === 0}>
                 Proceed to checkout
               </Button>
             </ListGroup.Item>

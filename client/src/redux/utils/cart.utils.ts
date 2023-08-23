@@ -40,3 +40,8 @@ export const removeFromCartUtil = (state: any, action: any) => {
   state.cartItems = state.cartItems.filter((item: ICartItem) => item._id !== itemId);
   updateLocalStorage(state);
 };
+
+export const saveShippingAddressUtil = (state: any, action: any) => {
+  state.shippingAddress = action.payload;
+  updateLocalStorage(state);
+};

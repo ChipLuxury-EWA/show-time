@@ -44,3 +44,11 @@ export class GetAllUsersError extends MongoDBError {
     this.statusCode = 500;
   }
 }
+
+export class OrderNotFound extends MongoDBError {
+  constructor(message: string = "Order not Found") {
+    super(message);
+    this.name = "OrderNotFound";
+    this.statusCode = 404;
+  }
+}

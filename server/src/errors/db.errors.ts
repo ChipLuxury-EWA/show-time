@@ -29,10 +29,10 @@ export class InvalidEmailOrPassword extends MongoDBError {
   }
 }
 
-export class InvalidUserId extends MongoDBError {
-  constructor(message: string = "Invalid user id - format not matching mongoDB format (cast error)") {
+export class InvalidObjectId extends MongoDBError {
+  constructor(message: string = "Invalid object id - format not matching mongoDB format (cast error)") {
     super(message);
-    this.name = "InvalidUserId";
+    this.name = "InvalidObjectId";
     this.statusCode = 422;
   }
 }

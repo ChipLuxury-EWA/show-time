@@ -1,7 +1,8 @@
 import { UserNotFound, InvalidEmailOrPassword, GetAllUsersError } from "../errors/db.errors.js";
 import { MissingNewUserDetails } from "../errors/user.errors.js";
 import User from "../models/user.model.js";
-import { checkIdFormat, checkIfUserExist, createJwtToken, createNewUser, getUserByEmailAndMatchPassword, stripUserDetails, } from "../utils/user.utils.js";
+import { checkIfUserExist, createJwtToken, createNewUser, getUserByEmailAndMatchPassword, stripUserDetails, } from "../utils/user.utils.js";
+import { checkIdFormat } from "../utils/db.utils.js";
 import { StripUserDetailsOptions } from "../utils/user.utils.js";
 async function getAllUsers() {
     try {

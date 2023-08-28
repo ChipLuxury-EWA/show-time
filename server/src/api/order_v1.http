@@ -1,0 +1,35 @@
+POST {{BASE_URL}}/order HTTP/1.1
+Content-Type: application/json
+
+{
+  "show":["64e51712872724e7defa791b"],
+  "shippingAddress": {"country": "israel", "postalCode": 7913000, "city": "ashkelon", "address": "hotza kibutz"},
+  "paymentMethod": "PayPal",
+  "ticketsAmounts": 2,
+  "ticketsPrice": 110,
+  "taxPrice": 10
+}
+###
+PUT {{BASE_URL}}/order/123/paid HTTP/1.1
+Content-Type: application/json
+
+{
+}
+###
+PUT {{BASE_URL}}/order/123/delivered HTTP/1.1
+Content-Type: application/json
+
+{
+}
+###
+GET {{BASE_URL}}/order/myorders HTTP/1.1
+Content-Type: application/json
+
+{
+}
+###
+GET {{BASE_URL}}/order/64ecf50e86c80d6951e8745c HTTP/1.1
+Content-Type: application/json
+
+{
+}

@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
-import { Types } from "mongoose";
 import User, { UserRoleEnum } from "../models/user.model.js";
 import { UserExistError } from "../errors/auth.errors.js";
-import { InvalidUserId } from "../errors/db.errors.js";
 export var StripUserDetailsOptions;
 (function (StripUserDetailsOptions) {
     StripUserDetailsOptions["NO_PASSWORD"] = "NO_PASSWORD";
@@ -22,10 +20,6 @@ export const createJwtToken = (userId, days = 14) => {
 };
 export const isAdmin = (user) => {
     return user.role === UserRoleEnum.ADMIN;
-};
-export const checkIdFormat = (userId) => {
-    if (!Types.ObjectId.isValid(userId))
-        throw new InvalidUserId();
 };
 export const getUserByEmail = async (userEmail) => {
     return await User.findOne({ email: userEmail }).select(`+password`);

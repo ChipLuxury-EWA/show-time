@@ -2,13 +2,13 @@ import { UserNotFound, InvalidEmailOrPassword, GetAllUsersError } from "../error
 import { MissingNewUserDetails } from "../errors/user.errors.js";
 import User, { IUser, UserRoleEnum } from "../models/user.model.js";
 import {
-  checkIdFormat,
   checkIfUserExist,
   createJwtToken,
   createNewUser,
   getUserByEmailAndMatchPassword,
   stripUserDetails,
 } from "../utils/user.utils.js";
+import {checkIdFormat} from "../utils/db.utils.js"
 import { StripUserDetailsOptions } from "../utils/user.utils.js";
 import { Response } from "express";
 

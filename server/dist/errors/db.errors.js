@@ -25,10 +25,10 @@ export class InvalidEmailOrPassword extends MongoDBError {
         this.statusCode = 401;
     }
 }
-export class InvalidUserId extends MongoDBError {
-    constructor(message = "Invalid user id - format not matching mongoDB format (cast error)") {
+export class InvalidObjectId extends MongoDBError {
+    constructor(message = "Invalid object id - format not matching mongoDB format (cast error)") {
         super(message);
-        this.name = "InvalidUserId";
+        this.name = "InvalidObjectId";
         this.statusCode = 422;
     }
 }
@@ -37,5 +37,12 @@ export class GetAllUsersError extends MongoDBError {
         super(message);
         this.name = "GetAllUsersError";
         this.statusCode = 500;
+    }
+}
+export class OrderNotFound extends MongoDBError {
+    constructor(message = "Order not Found") {
+        super(message);
+        this.name = "OrderNotFound";
+        this.statusCode = 404;
     }
 }

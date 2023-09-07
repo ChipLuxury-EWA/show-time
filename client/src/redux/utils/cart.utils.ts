@@ -47,6 +47,11 @@ export const saveShippingAddressUtil = (state: any, action: any) => {
 };
 
 export const savePaymentMethodUtil = (state: any, action: any) => {
-  state.PaymentMethod = action.payload;
+  state.paymentMethod = action.payload;
+  updateLocalStorage(state);
+};
+
+export const clearCartItemsUtil = (state: any, action: any) => {
+  state.cartItems = [];
   updateLocalStorage(state);
 };

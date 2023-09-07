@@ -35,7 +35,7 @@ const Product = () => {
   return isLoading ? (
     <Loader />
   ) : isError ? (
-    <Message variant="danger">{error.data.message || error.error}</Message>
+    <Message variant="danger" marginTop="40vh">{error.data.message || error.error}</Message>
   ) : showData ? (
     <Row>
       <Col md={5}>

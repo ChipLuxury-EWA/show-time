@@ -1,10 +1,10 @@
 import { Alert } from "react-bootstrap";
 
-const Message = ({ variant, children }: { variant: string; children: string }) => {
+const Message = ({ variant, children, marginTop }: { variant: string; children: string, marginTop: string }) => {
   return (
     <Alert
       variant={variant}
-      style={{ marginTop: "40vh" }}
+      style={{ marginTop: marginTop }}
     >
       {children}
     </Alert>
@@ -13,6 +13,7 @@ const Message = ({ variant, children }: { variant: string; children: string }) =
 
 Message.defaultProps = {
   variant: "info",
+  marginTop: "0vh"
 };
 
 export default Message;

@@ -27,7 +27,7 @@ router
 
 router
     .route("/:id")
-    .get(validateUser, validateAdmin, getOrderByID)
+    .get(validateUser, getOrderByID)
     .post()
     .put()
     .delete();

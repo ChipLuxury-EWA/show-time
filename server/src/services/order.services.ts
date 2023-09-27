@@ -21,10 +21,10 @@ async function getAllOrders() {
   }
 }
 
-async function getOrderByID(orderId: string) {
+async function getOrderByID(orderId: string): IOrder {
   try {
     checkIdFormat(orderId);
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).populate("user", "name email").populate("show", "image name price");
     if (order) {
       return order;
     } else {

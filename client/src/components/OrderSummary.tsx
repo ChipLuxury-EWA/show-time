@@ -20,6 +20,7 @@ export interface IOrder {
 export interface IOrderButton {
   handleClick: Function;
   isLoading: boolean;
+  value: string;
 }
 
 const OrderSummary = ({ order, button }: { order: IOrder; button?: IOrderButton }) => {
@@ -60,18 +61,17 @@ const OrderSummary = ({ order, button }: { order: IOrder; button?: IOrderButton 
           </Row>
         </ListGroup.Item>
         {button?.handleClick ? (
-          <ListGroup.Item>
-            <Row>
-              <Button
-                onClick={() => button.handleClick()}
-                type="button"
-                className="btn-block"
-                disabled={button.isLoading}
-                size="lg"
-              >
-                {button.isLoading ? <Loader height="30px" width="30px" marginTop="0px" /> : "Place order"}
-              </Button>
-            </Row>
+          <ListGroup.Item
+            action
+            variant="primary"
+            onClick={() => button.handleClick()}
+            className="d-flex justify-content-center"
+          >
+            {button.isLoading ? (
+              <Loader height="28px" width="28px" marginTop="0px" />
+            ) : (
+              <h4 style={{ margin: 0 }}>{button?.value}</h4>
+            )}
           </ListGroup.Item>
         ) : (
           ""

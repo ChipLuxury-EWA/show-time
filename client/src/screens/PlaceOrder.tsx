@@ -71,6 +71,7 @@ const PlaceOrder = () => {
 
   const isCartEmpty = cart.cartItems.length === 0;
   const button: IOrderButton = {
+    value: "Place order",
     handleClick: placeOrderHandler,
     isLoading,
   };

@@ -61,7 +61,7 @@ const Order = () => {
                 </Col>
                 <Col md={5}>
                   <h2>
-                    {order.ticketsAmounts} X ₪{order.show.price} = ₪{order.ticketsPrice}
+                    {order.ticketsAmounts} X ₪{order.show.price} = ₪{order.itemsPrice}
                   </h2>
                 </Col>
               </Row>

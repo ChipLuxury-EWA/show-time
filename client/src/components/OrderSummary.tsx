@@ -1,4 +1,5 @@
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
+import Loader from "../components/Loader";
 
 export interface IOrder {
   _id: string;
@@ -16,10 +17,15 @@ export interface IOrder {
   isDelivered: boolean;
 }
 
-const OrderSummary = ({ order }: { order: IOrder }) => {
+export interface IOrderButton {
+  handleClick: Function;
+  isLoading: boolean;
+}
+
+const OrderSummary = ({ order, button }: { order: IOrder; button?: IOrderButton }) => {
   return (
     <Card>
-      <ListGroup>
+      <ListGroup variant="flush">
         <ListGroup.Item>
           <h2>Order Summary</h2>
         </ListGroup.Item>
@@ -53,6 +59,23 @@ const OrderSummary = ({ order }: { order: IOrder }) => {
             <Col>₪{(order.itemsPrice + order.taxPrice).toFixed(2)}</Col>
           </Row>
         </ListGroup.Item>
+        {button?.handleClick ? (
+          <ListGroup.Item>
+            <Row>
+              <Button
+                onClick={() => button.handleClick()}
+                type="button"
+                className="btn-block"
+                disabled={button.isLoading}
+                size="lg"
+              >
+                {button.isLoading ? <Loader height="30px" width="30px" marginTop="0px" /> : "Place order"}
+              </Button>
+            </Row>
+          </ListGroup.Item>
+        ) : (
+          ""
+        )}
       </ListGroup>
     </Card>
   );

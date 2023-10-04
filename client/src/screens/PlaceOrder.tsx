@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
-import Loader from "../components/Loader";
 import { useCreateOrderMutation } from "../redux/slices/orderApi.slice";
 import { clearCartItems } from "../redux/slices/cart.slice";
+import OrderSummary, { IOrderButton } from "../components/OrderSummary";
 
 const PlaceOrder = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const PlaceOrder = () => {
         shippingAddress,
         paymentMethod,
         ticketsAmounts: cartItems[0].chosenTicketsAmount,
-        ticketsPrice: itemsPrice,
+        itemsPrice,
         taxPrice,
         shippingPrice,
         userId,
@@ -46,7 +46,8 @@ const PlaceOrder = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (error: any) {
-      toast.error(error);
+      toast.error(error.data.message);
+      // TODO tompo fix bug error when user not logged in (jwt token)
     }
   };
 
@@ -69,6 +70,11 @@ const PlaceOrder = () => {
   });
 
   const isCartEmpty = cart.cartItems.length === 0;
+  const button: IOrderButton = {
+    value: "Place order",
+    handleClick: placeOrderHandler,
+    isLoading,
+  };
 
   return (
     <>
@@ -98,59 +104,15 @@ const PlaceOrder = () => {
         <Col md={4}>
           <Card>
             <ListGroup>
-              <ListGroup.Item>
-                <h2>Order summary</h2>
-              </ListGroup.Item>
               {isCartEmpty ? (
                 <ListGroup.Item>
                   <Message variant="info" marginTop="1vh">
-                    {"Choose show"}
+                    {"Add show to cart"}
                   </Message>
                 </ListGroup.Item>
               ) : (
-                <>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Items:</Col>
-                      <Col>₪{cart.itemsPrice}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Tax price:</Col>
-                      <Col>₪{cart.taxPrice}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Shipping:</Col>
-                      <Col>₪{cart.shippingPrice}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <strong>Total price:</strong>
-                      </Col>
-                      <Col>₪{cart.totalPrice}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                </>
+                <OrderSummary order={cart} button={button} />
               )}
-
-              <ListGroup.Item>
-                <Row>
-                  <Button
-                    onClick={placeOrderHandler}
-                    type="button"
-                    className="btn-block"
-                    disabled={isCartEmpty || isLoading}
-                    size="lg"
-                  >
-                    {isLoading ? <Loader height="30px" width="30px" marginTop="0px" /> : "Place order"}
-                  </Button>
-                </Row>
-              </ListGroup.Item>
             </ListGroup>
           </Card>
           {error && <Message variant="danger">{error}</Message>}

@@ -6,7 +6,7 @@ Content-Type: application/json
   "shippingAddress": {"country": "israel", "postalCode": 7913000, "city": "ashkelon", "address": "hotza kibutz"},
   "paymentMethod": "PayPal",
   "ticketsAmounts": 2,
-  "ticketsPrice": 110,
+  "itemsPrice": 110,
   "taxPrice": 10
 }
 ###

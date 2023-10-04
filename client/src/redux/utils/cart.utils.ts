@@ -28,7 +28,7 @@ export const addToCartUtil = (state: any, action: any) => {
     state.cartItems = [...state.cartItems, item];
   }
   state.itemsPrice = calculateItemsPrice(state.cartItems);
-  state.shippingPrice = 10; //TODO tompo add logic to calculate shipping/ handling price
+  state.shippingPrice = 0; //TODO tompo add logic to calculate shipping/ handling price
   state.taxPrice = getTaxPrice(state.itemsPrice);
   state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice;
 

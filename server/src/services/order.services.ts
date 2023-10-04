@@ -7,7 +7,7 @@ interface IOrder {
   shippingAddress: string;
   paymentMethod: string;
   ticketsAmounts: number;
-  ticketsPrice: number;
+  itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
   userId: string;
@@ -53,7 +53,7 @@ const addNewOrder = async ({
   shippingAddress,
   paymentMethod,
   ticketsAmounts,
-  ticketsPrice,
+  itemsPrice,
   taxPrice,
   shippingPrice,
   userId,
@@ -64,7 +64,7 @@ const addNewOrder = async ({
     shippingAddress,
     paymentMethod,
     ticketsAmounts,
-    ticketsPrice,
+    itemsPrice,
     taxPrice,
     shippingPrice,
   });

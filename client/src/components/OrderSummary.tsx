@@ -7,7 +7,7 @@ export interface IOrder {
   shippingAddress: string;
   paymentMethod: string;
   ticketsAmounts: number;
-  ticketsPrice: number;
+  itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;
   userId: string;
@@ -26,7 +26,7 @@ const OrderSummary = ({ order }: { order: IOrder }) => {
         <ListGroup.Item>
           <Row>
             <Col>Tickets:</Col>
-            <Col>₪{order.ticketsPrice}</Col>
+            <Col>₪{order.itemsPrice}</Col>
           </Row>
         </ListGroup.Item>
         {order.shippingPrice ? (
@@ -50,7 +50,7 @@ const OrderSummary = ({ order }: { order: IOrder }) => {
             <Col>
               <strong>Total price:</strong>
             </Col>
-            <Col>₪{order.ticketsPrice + order.taxPrice}</Col>
+            <Col>₪{(order.itemsPrice + order.taxPrice).toFixed(2)}</Col>
           </Row>
         </ListGroup.Item>
       </ListGroup>

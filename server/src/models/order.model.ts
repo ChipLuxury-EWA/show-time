@@ -19,7 +19,7 @@ const orderSchema = new Schema(
       email_address: { type: String },
     },
     shippingPrice: { type: Number, default: 0.0 },
-    ticketsPrice: { type: Number, required: true, default: 0.0 },
+    itemsPrice: { type: Number, required: true, default: 0.0 },
     taxPrice: { type: Number, required: true, default: 0.0 },
     isPaid: { type: Boolean, required: true, default: false },
     paidAt: { type: Date },

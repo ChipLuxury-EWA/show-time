@@ -46,7 +46,8 @@ const PlaceOrder = () => {
       dispatch(clearCartItems());
       navigate(`/order/${res._id}`);
     } catch (error: any) {
-      toast.error(error);
+      toast.error(error.data.message);
+      // TODO tompo fix bug error when user not logged in (jwt token)
     }
   };
 

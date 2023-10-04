@@ -18,6 +18,7 @@ const orderSchema = new Schema(
       update_time: { type: String },
       email_address: { type: String },
     },
+    shippingPrice: { type: Number, default: 0.0 },
     ticketsPrice: { type: Number, required: true, default: 0.0 },
     taxPrice: { type: Number, required: true, default: 0.0 },
     isPaid: { type: Boolean, required: true, default: false },

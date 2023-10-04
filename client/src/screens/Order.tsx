@@ -1,18 +1,19 @@
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Form, Button, Card } from "react-bootstrap";
+import { Row, Col, ListGroup, Image } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { useGetOrderDetailsQuery } from "../redux/slices/orderApi.slice";
+import OrderSummary from "../components/OrderSummary";
 
 const Order = () => {
-  const { id } = useParams();
-  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(id);
+  const { id } = useParams<string>();
+  const { data: order, refetch, isLoading, error } = useGetOrderDetailsQuery(id!);
 
   return isLoading ? (
     <Loader />
   ) : error ? (
     <Message variant="danger">{error.data.message}</Message>
-  ) : (
+  ) : order ? (
     <>
       <h1>Order {order._id}</h1>
       <hr />
@@ -31,7 +32,7 @@ const Order = () => {
                 <strong>Address: </strong> {Object.values(order.shippingAddress).join(", ")}
               </p>
               {order.isDelivered ? (
-                <Message variant="success">Delivered at {order.paidAt} </Message>
+                <Message variant="success">Delivered at {order.paidAt.toString()} </Message>
               ) : (
                 <Message variant="danger">Not delivered</Message>
               )}
@@ -43,7 +44,7 @@ const Order = () => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt} </Message>
+                <Message variant="success">Paid on {order.paidAt.toString()} </Message>
               ) : (
                 <Message variant="danger">Not paid</Message>
               )}
@@ -71,10 +72,12 @@ const Order = () => {
           </ListGroup>
         </Col>
         <Col md={4}>
-          place here order summary component
+          <OrderSummary order={order} />
         </Col>
       </Row>
     </>
+  ) : (
+    <Message variant="danger">No data</Message>
   );
 };
 

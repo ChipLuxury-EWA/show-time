@@ -1,17 +1,6 @@
 import { OrderNotFound } from "../errors/db.errors.js";
-import Order from "../models/order.model.js";
+import Order, { IOrder } from "../models/order.model.js";
 import { checkIdFormat } from "../utils/db.utils.js";
-
-interface IOrder {
-  show: string;
-  shippingAddress: string;
-  paymentMethod: string;
-  ticketsAmounts: number;
-  itemsPrice: number;
-  taxPrice: number;
-  shippingPrice: number;
-  userId: string;
-}
 
 async function getAllOrders() {
   try {
@@ -21,7 +10,7 @@ async function getAllOrders() {
   }
 }
 
-async function getOrderByID(orderId: string): IOrder {
+async function getOrderByID(orderId: string): Promise<IOrder> {
   try {
     checkIdFormat(orderId);
     const order = await Order.findById(orderId).populate("user", "name email").populate("show", "image name price");
@@ -56,10 +45,10 @@ const addNewOrder = async ({
   itemsPrice,
   taxPrice,
   shippingPrice,
-  userId,
+  user,
 }: IOrder) => {
   const order = new Order({
-    user: userId,
+    user,
     show,
     shippingAddress,
     paymentMethod,

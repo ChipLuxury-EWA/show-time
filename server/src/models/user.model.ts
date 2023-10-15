@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export enum UserRoleEnum {
@@ -8,7 +8,7 @@ export enum UserRoleEnum {
 }
 
 export interface IUser extends Document {
-  _id: string;
+  _id: ObjectId;
   name: string;
   email: string;
   password: string;

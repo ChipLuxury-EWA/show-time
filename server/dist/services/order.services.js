@@ -38,9 +38,9 @@ async function getOrdersByUserID(userId) {
         }
     }
 }
-const addNewOrder = async ({ show, shippingAddress, paymentMethod, ticketsAmounts, itemsPrice, taxPrice, shippingPrice, userId, }) => {
+const addNewOrder = async ({ show, shippingAddress, paymentMethod, ticketsAmounts, itemsPrice, taxPrice, shippingPrice, user, }) => {
     const order = new Order({
-        user: userId,
+        user,
         show,
         shippingAddress,
         paymentMethod,

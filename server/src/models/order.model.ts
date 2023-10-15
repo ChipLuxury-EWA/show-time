@@ -1,4 +1,15 @@
-import { Schema, model } from "mongoose";
+import { ObjectId, Schema, model } from "mongoose";
+
+export interface IOrder extends Document {
+  show: ObjectId;
+  shippingAddress: string;
+  paymentMethod: string;
+  ticketsAmounts: number;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  user: ObjectId;
+}
 
 const orderSchema = new Schema(
   {
@@ -28,5 +39,5 @@ const orderSchema = new Schema(
   { timestamps: true }
 );
 
-const Order = model("Order", orderSchema);
+const Order = model<IOrder>("Order", orderSchema);
 export default Order;

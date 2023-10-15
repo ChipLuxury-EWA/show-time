@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import User, { IUser, UserRoleEnum } from "../models/user.model.js";
 import { UserExistError } from "../errors/auth.errors.js";
 import { ReturnedUserDetails, UserDetails, UserDetailsWithName } from "../services/user.services.js";
+import { ObjectId } from "mongoose";
 
 export enum StripUserDetailsOptions {
   NO_PASSWORD = "NO_PASSWORD",
@@ -17,7 +18,7 @@ export const createNewUser = async ({ email, password, name }: UserDetailsWithNa
   }
 };
 
-export const createJwtToken = (userId: string, days: number = 14): string => {
+export const createJwtToken = (userId: ObjectId, days: number = 14): string => {
   return jwt.sign({ userId }, process.env.JWT_SECRET as string, { expiresIn: `${days}d` });
 };
 

@@ -18,7 +18,7 @@ const PlaceOrder = () => {
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
   const { userInfo } = auth;
-  const { _id: userId } = userInfo;
+  const { _id: user } = userInfo;
 
   useEffect(() => {
     if (!cart.shippingAddress.address) {
@@ -40,7 +40,7 @@ const PlaceOrder = () => {
         itemsPrice,
         taxPrice,
         shippingPrice,
-        userId,
+        user,
       }).unwrap();
 
       dispatch(clearCartItems());
@@ -115,7 +115,7 @@ const PlaceOrder = () => {
               )}
             </ListGroup>
           </Card>
-          {error && <Message variant="danger">{error}</Message>}
+          {/* {error && <Message variant="danger">{error.data.message}</Message>} */ /* if we want to show error below the card */}
         </Col>
       </Row>
     </>

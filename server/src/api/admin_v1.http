@@ -1,10 +1,10 @@
 // admin routes:
 
 # @name get_all_users
-GET {{BASE_URL}}/user HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/user HTTP/1.1
 ###
 # @name register_new_user
-POST {{BASE_URL}}/user HTTP/1.1
+POST {{BASE_URL}}/{{API_VERSION}}/user HTTP/1.1
 Content-Type: application/json
 
 {
@@ -17,17 +17,17 @@ Content-Type: application/json
 
 ////////     by id routes:     ///////
 # @name wrongFormatId
-GET {{BASE_URL}}/user/1234 HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/user/1234 HTTP/1.1
 ###
 # @name userNotFound
-GET {{BASE_URL}}/user/000000000000000000000000 HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/user/000000000000000000000000 HTTP/1.1
 ###
 # @name getUserById
-GET {{BASE_URL}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
 ###
 
-PUT {{BASE_URL}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
+PUT {{BASE_URL}}/{{API_VERSION}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
 ###
 
-DELETE {{BASE_URL}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
+DELETE {{BASE_URL}}/{{API_VERSION}}/user/64c8e75e47dcf1c4ed198f27 HTTP/1.1
 ###

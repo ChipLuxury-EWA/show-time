@@ -44,7 +44,7 @@ const Order = () => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt.toString()} </Message>
+                <Message variant="success">Paid on: {new Date(order.paidAt).toDateString()} </Message>
               ) : (
                 <Message variant="danger">Not paid</Message>
               )}

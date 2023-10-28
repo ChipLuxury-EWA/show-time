@@ -1,4 +1,4 @@
-POST {{BASE_URL}}/order HTTP/1.1
+POST {{BASE_URL}}/{{API_VERSION}}/order HTTP/1.1
 Content-Type: application/json
 
 {
@@ -10,26 +10,35 @@ Content-Type: application/json
   "taxPrice": 10
 }
 ###
-PUT {{BASE_URL}}/order/123/paid HTTP/1.1
+# @name update_order_to_paid
+PUT {{BASE_URL}}/{{API_VERSION}}/order/653c1fc01f30628723b0c090/paid HTTP/1.1
+Content-Type: application/json
+
+{
+  "payment": {
+    "id": 123,
+    "status": "paid",
+    "update_time": 12314135,
+    "payer": {"email_address": "foo@mail.com"}}
+}
+###
+PUT {{BASE_URL}}/{{API_VERSION}}/order/123/delivered HTTP/1.1
 Content-Type: application/json
 
 {
 }
 ###
-PUT {{BASE_URL}}/order/123/delivered HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/order/myorders HTTP/1.1
 Content-Type: application/json
 
 {
 }
 ###
-GET {{BASE_URL}}/order/myorders HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/order/653cd8c2516f9cc6a17e5941 HTTP/1.1
 Content-Type: application/json
 
 {
 }
 ###
-GET {{BASE_URL}}/order/64ecf50e86c80d6951e8745c HTTP/1.1
-Content-Type: application/json
-
-{
-}
+# @name get_paypal_client__id
+GET {{BASE_URL}}/config/paypal HTTP/1.1

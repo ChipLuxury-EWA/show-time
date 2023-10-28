@@ -11,6 +11,7 @@ import {
 import {checkIdFormat} from "../utils/db.utils.js"
 import { StripUserDetailsOptions } from "../utils/user.utils.js";
 import { Response } from "express";
+import { ObjectId } from "mongoose";
 
 export type UserDetails = { email: string; password: string };
 export interface UserDetailsWithName extends UserDetails {
@@ -18,7 +19,7 @@ export interface UserDetailsWithName extends UserDetails {
 }
 
 export type ReturnedUserDetails = {
-  _id: string;
+  _id: ObjectId;
   name: string;
   email: string;
   role: keyof typeof UserRoleEnum;

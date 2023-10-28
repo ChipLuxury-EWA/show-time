@@ -1,8 +1,8 @@
 ////////     profile routes:    ////////
-GET {{BASE_URL}}/user/profile HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/user/profile HTTP/1.1
 ###
 
-PUT {{BASE_URL}}/user/profile HTTP/1.1
+PUT {{BASE_URL}}/{{API_VERSION}}/user/profile HTTP/1.1
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ///    login logout routes:      //////
 # @name adminLogin
-POST {{BASE_URL}}/user/login HTTP/1.1 HTTP/1.1
+POST {{BASE_URL}}/{{API_VERSION}}/user/login HTTP/1.1 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -25,7 +25,7 @@ Content-Type: application/json
 ###
 
 # @name buyerLogin
-POST {{BASE_URL}}/user/login HTTP/1.1 HTTP/1.1
+POST {{BASE_URL}}/{{API_VERSION}}/user/login HTTP/1.1 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -35,5 +35,5 @@ Content-Type: application/json
 ###
 
 # @name logout
-POST {{BASE_URL}}/user/logout HTTP/1.1
+POST {{BASE_URL}}/{{API_VERSION}}/user/logout HTTP/1.1
 ###

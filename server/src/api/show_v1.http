@@ -1,14 +1,14 @@
-GET {{BASE_URL}}/shows HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/shows HTTP/1.1
 ###
 
-GET {{BASE_URL}}/shows/649bcf2c513ae138c84ab3d3 HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/shows/649bcf2c513ae138c84ab3d3 HTTP/1.1
 ###
 
 
 ############### error handling: ################
-GET {{BASE_URL}}/shows/asd3 HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/shows/asd3 HTTP/1.1
 ###
 
-GET {{BASE_URL}}/url_not_exist HTTP/1.1
+GET {{BASE_URL}}/{{API_VERSION}}/url_not_exist HTTP/1.1
 ###
 

@@ -52,8 +52,19 @@ const addNewOrder = async ({ show, shippingAddress, paymentMethod, ticketsAmount
     const createdOrder = await order.save();
     return createdOrder;
 };
-const updateOrderToPaid = () => {
-    return "order is paid";
+const updateOrderToPaid = async ({ orderId, payment }) => {
+    //TODO tompo: add try catch here.
+    const order = await getOrderByID(orderId);
+    order.isPaid = true;
+    order.paidAt = new Date();
+    order.paymentResult = {
+        id: payment.id,
+        status: payment.status,
+        update_time: payment.update_time,
+        email_address: payment.payer.email_address,
+    };
+    const updatedOrder = order.save();
+    return updatedOrder;
 };
 const updateOrderToDelivered = () => {
     return "order is delivered";

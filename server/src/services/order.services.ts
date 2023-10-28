@@ -62,8 +62,21 @@ const addNewOrder = async ({
   return createdOrder;
 };
 
-const updateOrderToPaid = () => {
-  return "order is paid";
+const updateOrderToPaid = async ({ orderId, payment }: { orderId: string; payment: any }) => {
+  //TODO tompo: add try catch here.
+  const order = await getOrderByID(orderId);
+
+  order.isPaid = true;
+  order.paidAt = new Date();
+  order.paymentResult = {
+    id: payment.id,
+    status: payment.status,
+    update_time: payment.update_time,
+    email_address: payment.payer.email_address,
+  };
+
+  const updatedOrder = order.save();
+  return updatedOrder;
 };
 
 const updateOrderToDelivered = () => {

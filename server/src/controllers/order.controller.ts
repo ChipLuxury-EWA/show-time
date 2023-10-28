@@ -20,8 +20,7 @@ export const addNewOrder = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  const ans = await orderService.updateOrderToPaid(req.body);
-  res.send(ans);
+  res.send(await orderService.updateOrderToPaid({ orderId: req.params.id, payment: req.body.payment }));
 });
 
 export const updateOrderToDelivered = asyncHandler(async (req: Request, res: Response) => {

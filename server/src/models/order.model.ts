@@ -9,6 +9,10 @@ export interface IOrder extends Document {
   taxPrice: number;
   shippingPrice: number;
   user: ObjectId;
+  isPaid: boolean;
+  paidAt: Date;
+  paymentResult: any;
+  save: Function;
 }
 
 const orderSchema = new Schema(
